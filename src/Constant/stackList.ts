@@ -1,8 +1,13 @@
-import { Stack } from "../Type/type";
+import { Stack } from "../type/aboutReducer";
 
-export const front: Stack = {
+export const frontend: Stack = {
   React: "React",
   Next: "Next",
   Styled: "Styled-Components",
-  Query: "React-Query",
+  Animation: "Animation",
+};
+
+export const backend: Stack = {
+  Node: "Node",
+  MongoDB: "MongoDB",
 };
