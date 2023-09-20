@@ -1,26 +1,66 @@
 import React, { useEffect, useRef } from "react";
+import { styled } from "styled-components";
 
-export default function Background() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const MatrixAnimation: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    createMatrixRain();
-  }, []);
-
-  function createMatrixRain() {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
-    // Your existing code for creating the matrix rain goes here
+    const w = (canvas.width = window.innerWidth);
+    const h = (canvas.height = window.innerHeight);
+    const cols = Math.floor(w / 20) + 1;
+    const ypos = Array(cols).fill(0);
 
-    function draw() {
-      // Your existing draw function code goes here
-    }
+    if (!ctx) return;
 
-    setInterval(draw, 35);
-  }
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, w, h);
 
-  return <canvas ref={canvasRef}></canvas>;
-}
+    const matrix = () => {
+      if (!ctx) return;
+
+      ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.fillStyle = "#00970061";
+      ctx.font = "15pt monospace";
+
+      ypos.forEach((y, ind) => {
+        const text = String.fromCharCode(Math.random() * 128);
+        const x = ind * 20;
+        ctx.fillText(text, x, y);
+        if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+        else ypos[ind] = y + 20;
+      });
+    };
+
+    const intervalId = setInterval(matrix, 30);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  return (
+    <Canva
+      ref={canvasRef}
+      width="100%"
+      height="100%"
+      style={{ display: "block", background: "#000" }}
+    />
+  );
+};
+
+const Canva = styled.canvas`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+`;
+
+export default MatrixAnimation;
