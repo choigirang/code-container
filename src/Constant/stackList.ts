@@ -1,4 +1,4 @@
-import { Stack } from "../type/aboutReducer";
+import { Stack } from "../type/aboutRedux";
 
 export const frontend: Stack = {
   React: "React",
