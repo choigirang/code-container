@@ -1,12 +1,22 @@
-import React from "react";
 import { styled } from "styled-components";
 import { frontend, backend } from "../../constant/stackList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectStack } from "../../redux/actions/stack";
+import { RootState } from "../../redux/store/store";
+
+type StackProp = {
+  stack: boolean;
+};
 
 export default function StackList() {
+  // 선택한 스택
+  const selectedStack = useSelector((state: RootState) => state.stack.stack);
+
+  // 스택 모음
   const frontStack = frontend;
   const backStack = backend;
+
+  // 스택 선택
   const dispatch = useDispatch();
 
   // redux 선택한 stack 저장하기
@@ -19,7 +29,11 @@ export default function StackList() {
       <Title>FRONTEND</Title>
       <DividStack>
         {Object.keys(frontStack).map((stack) => (
-          <StackItem key={stack} onClick={() => handleSelectStack(stack)}>
+          <StackItem
+            key={stack}
+            onClick={() => handleSelectStack(stack)}
+            stack={selectedStack === stack}
+          >
             {frontStack[stack]}
           </StackItem>
         ))}
@@ -28,7 +42,11 @@ export default function StackList() {
       <Title>BACKEND</Title>
       <DividStack>
         {Object.keys(backStack).map((stack) => (
-          <StackItem key={stack} onClick={() => handleSelectStack(stack)}>
+          <StackItem
+            key={stack}
+            onClick={() => handleSelectStack(stack)}
+            stack={selectedStack === stack}
+          >
             {backStack[stack]}
           </StackItem>
         ))}
@@ -47,19 +65,41 @@ const Container = styled.div`
   border-right: solid 3px rgba(255, 255, 255, 0.4);
 `;
 
+// 스택 목록
 const DividStack = styled.ul`
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 `;
 
 const Title = styled.p`
   width: 100%;
   height: 30px;
-  text-align: center;
-  font-size: 18px;
-  font-family: 500;
-  letter-spacing: 1.5;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 2px;
+  font-size: 21px;
+  font-weight: bold;
+  border: solid 2px green;
+  border-radius: 3px;
 `;
 
-const StackItem = styled.li``;
+// 개별 스택
+const StackItem = styled.li<StackProp>`
+  width: 100%;
+  min-height: 50px;
+  background-color: ${(props) =>
+    props.stack ? "rgba(255, 255, 255, 0.5)" : null};
+  padding: 10px;
+  font-size: 18px;
+  transition: all 0.3s;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+`;
