@@ -9,6 +9,7 @@ function App() {
   return (
     <Provider store={store}>
       <BasicApp>
+        {/* 스택 리스트 & 선택한 스택에 따른 목록 */}
         <StackBox />
         <Background />
       </BasicApp>
