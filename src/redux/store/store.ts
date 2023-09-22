@@ -1,6 +1,9 @@
 import { createStore, combineReducers } from "redux";
+import { stackReducer } from "../reducers/stackReducer";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  stack: stackReducer,
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
 
