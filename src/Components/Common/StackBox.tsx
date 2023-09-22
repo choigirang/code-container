@@ -6,7 +6,9 @@ import FolderOfStack from "./FolderOfStack";
 export default function StackBox() {
   return (
     <Container>
+      {/* 좌측 스택 리스트 */}
       <StackList />
+      {/* 우측 스택에 따른 목록 */}
       <FolderOfStack />
     </Container>
   );
