@@ -4,7 +4,7 @@ export const frontend: Stack = {
   React: "React",
   Next: "Next",
   Styled: "Styled-Components",
-  Animation: "Animation",
+  Animation: "CSS",
 };
 
 export const backend: Stack = {
