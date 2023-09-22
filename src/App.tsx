@@ -1,5 +1,4 @@
 import React from "react";
-import "./style/App.css";
 import Background from "./components/common/Background";
 import StackBox from "./components/common/StackBox";
 import { styled } from "styled-components";
