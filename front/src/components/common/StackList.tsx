@@ -5,16 +5,12 @@ import { selectStack } from "../../redux/actions/stack";
 import { RootState } from "../../redux/store/store";
 
 type StackProp = {
-  stack: boolean;
+  $stack: boolean;
 };
 
 export default function StackList() {
   // 선택한 스택
   const selectedStack = useSelector((state: RootState) => state.stack.stack);
-
-  // 스택 모음
-  const frontStack = frontend;
-  const backStack = backend;
 
   // 스택 선택
   const dispatch = useDispatch();
@@ -23,34 +19,38 @@ export default function StackList() {
   const handleSelectStack = (stack: string) => {
     dispatch(selectStack(stack));
   };
+
+  // 스택 모음
+  const stacks = {
+    FRONTEND: frontend,
+    BACKEND: backend,
+  };
+
+  // 스택 항목 렌더링
+  const renderStackItems = (
+    stackType: string,
+    stackList: { [key: string]: string }
+  ) => {
+    return Object.keys(stackList).map((stack) => (
+      <StackItem
+        key={stack}
+        onClick={() => handleSelectStack(stack)}
+        $stack={selectedStack === stack}
+      >
+        {stackList[stack]}
+      </StackItem>
+    ));
+  };
+
+  // 각각의 스택 목록을 렌더링
   return (
     <Container>
-      {/* 프론트엔드 목록 */}
-      <Title>FRONTEND</Title>
-      <DividStack>
-        {Object.keys(frontStack).map((stack) => (
-          <StackItem
-            key={stack}
-            onClick={() => handleSelectStack(stack)}
-            stack={selectedStack === stack}
-          >
-            {frontStack[stack]}
-          </StackItem>
-        ))}
-      </DividStack>
-      {/* 백엔드 목록 */}
-      <Title>BACKEND</Title>
-      <DividStack>
-        {Object.keys(backStack).map((stack) => (
-          <StackItem
-            key={stack}
-            onClick={() => handleSelectStack(stack)}
-            stack={selectedStack === stack}
-          >
-            {backStack[stack]}
-          </StackItem>
-        ))}
-      </DividStack>
+      {Object.entries(stacks).map(([stackType, stackList]) => (
+        <div key={stackType}>
+          <Title>{stackType}</Title>
+          <DividStack>{renderStackItems(stackType, stackList)}</DividStack>
+        </div>
+      ))}
     </Container>
   );
 }
@@ -91,8 +91,11 @@ const Title = styled.p`
 const StackItem = styled.li<StackProp>`
   width: 100%;
   min-height: 50px;
+  display: flex;
+  align-items: center;
   background-color: ${(props) =>
-    props.stack ? "rgba(255, 255, 255, 0.5)" : null};
+    props.$stack ? "rgba(255, 255, 255, 0.5)" : "none"};
+  font-weight: ${props => props.$stack ? "700" : "300"};
   padding: 10px;
   font-size: 18px;
   transition: all 0.3s;
