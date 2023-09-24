@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { api } from "../../util/api";
 import { styled } from "styled-components";
-import { ApiStackData } from "../../type/aboutRedux";
+import { ApiStackData } from "../../type/api";
 
 type ContainerProps = {
   $displayOpt: undefined | ApiStackData[];
@@ -15,10 +15,10 @@ export default function FolderOfStack() {
   );
   const stack = useSelector((state: RootState) => state.stack.stack);
 
-  useEffect(() => {
-    const dataOfStack = api.get("");
-    !dataOfStack && setApiStack(undefined);
-  }, [stack]);
+  // useEffect(() => {
+  //   const dataOfStack = api.get("");
+  //   !dataOfStack && setApiStack(undefined);
+  // }, [stack]);
 
   return (
     <Container $displayOpt={apiStack}>
