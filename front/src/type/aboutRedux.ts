@@ -1,18 +1,12 @@
 import { selectStack } from "../redux/actions/stack";
+import { superAccount } from "../redux/actions/superAccout";
 
-// action 타입
+// stack 타입
 export type SelectStackAction = ReturnType<typeof selectStack>;
+// super 타입
+export type SuperAccountAction = ReturnType<typeof superAccount>;
 
 // stack 타입
 export type Stack = {
   [key: string]: string;
 };
-
-// api Data 타입
-export type ApiStackData = {
-  number: number;
-  category: string;
-  title: string;
-  body: string;
-  date: string;
-}
