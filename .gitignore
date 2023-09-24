@@ -2,6 +2,7 @@
 .DS_Store
 front/.env
 front/node_modules
+front/node_modules/.cache
 
 back/.env
 back/node_modules
