@@ -7,6 +7,7 @@ import store, { RootState } from "./redux/store/store";
 import { VscTerminalPowershell } from "react-icons/vsc";
 import { BsPencilSquare } from "react-icons/bs";
 import { changeAuthority } from "./redux/actions/authority";
+import { changeWrite } from "./redux/actions/write";
 
 function App() {
   return (
@@ -54,9 +55,12 @@ function CheckSuper() {
           type="password"
         />
       )}
-      {/* 코드 입력 아이콘 */}
+      {/* 코드 입력 아이콘 || 게시글 작성 아이콘 */}
       {superUser ? (
-        <BsPencilSquare className="icons" />
+        <BsPencilSquare
+          className="icons"
+          onClick={() => dispatch(changeWrite())}
+        />
       ) : (
         <VscTerminalPowershell
           className="icons"
