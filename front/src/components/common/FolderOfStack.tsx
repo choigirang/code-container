@@ -15,10 +15,15 @@ export default function FolderOfStack() {
   );
   const stack = useSelector((state: RootState) => state.stack.stack);
 
-  // useEffect(() => {
-  //   const dataOfStack = api.get("");
-  //   !dataOfStack && setApiStack(undefined);
-  // }, [stack]);
+  useEffect(() => {
+    const dataOfStack = api
+      .get(`/posts/${stack ? stack : "all"}`)
+      .then((res) => {
+        if (res.data.length > 0) {
+          setApiStack(res.data);
+        } else setApiStack(undefined);
+      });
+  }, [stack]);
 
   return (
     <Container $displayOpt={apiStack}>
