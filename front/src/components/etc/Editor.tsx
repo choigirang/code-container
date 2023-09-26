@@ -2,34 +2,21 @@ import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import styled from "styled-components";
-import { EditorState } from "draft-js";
-
-const MyBlock = styled.div`
-  color: #f1f1f1;
-
-  .wrapper-class {
-    width: 50%;
-    margin: 0 auto;
-    margin-bottom: 4rem;
-  }
-  .editor {
-    height: 500px !important;
-    border: 1px solid #f1f1f1 !important;
-    padding: 5px !important;
-    border-radius: 2px !important;
-  }
-`;
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 
 export const EditorForm = () => {
   // useState로 상태관리하기 초기값은 EditorState.createEmpty()
   // EditorState의 비어있는 ContentState 기본 구성으로 새 개체를 반환 => 이렇게 안하면 상태 값을 나중에 변경할 수 없음.
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [htmlContent, setHtmlContent] = useState(""); // 추가: HTML 내용을 저장할 상태
 
-  const onEditorStateChange = (
-    editorState: React.SetStateAction<EditorState>
-  ) => {
-    // editorState에 값 설정
+  // 에디터의 내용이 변경될 때마다 호출되는 함수
+  const onEditorStateChange = (editorState: EditorState) => {
     setEditorState(editorState);
+    // 에디터 내용을 HTML 문자열로 변환하여 상태에 저장
+    const content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    setHtmlContent(content);
   };
 
   return (
@@ -59,6 +46,31 @@ export const EditorForm = () => {
         // 에디터의 값이 변경될 때마다 onEditorStateChange 호출
         onEditorStateChange={onEditorStateChange}
       />
+      <SubmitBtn>전송 </SubmitBtn>
     </MyBlock>
   );
 };
+
+const MyBlock = styled.form`
+  display: flex;
+  color: #f1f1f1;
+  overflow: hidden;
+  position: relative;
+
+  .wrapper-class {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .editor {
+    height: 100% !important;
+    border: 1px solid #f1f1f1 !important;
+    padding: 5px !important;
+    border-radius: 2px !important;
+  }
+`;
+
+const SubmitBtn = styled.button`
+  width: 70px;
+  height: 35px;
+  background-color: white;
+`;
