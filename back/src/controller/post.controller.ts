@@ -17,4 +17,8 @@ export async function showPost(req: Request, res: Response) {
   }
 }
 
-export async function uploadPost(req: Request, res: Response) {}
+export async function uploadPost(req: Request, res: Response) {
+  const { title, body, stack } = req.body;
+  try {
+  } catch {}
+}
