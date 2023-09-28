@@ -14,15 +14,12 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
-    type: String,
-    required: true,
-  },
   stack: {
     type: String,
     required: true,
   },
 });
+postSchema.set("timestamps", { createdAt: true });
 
 const Post = mongoose.model<PostType>("Post", postSchema);
 
