@@ -32,7 +32,7 @@ const animateBorder = keyframes`
 
 const Container = styled.div`
   width: 100%;
-  min-height: 80%;
+  height: 80%;
   border: solid 4px #00bd00;
   border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.5);
