@@ -18,7 +18,20 @@ export async function showPost(req: Request, res: Response) {
 }
 
 export async function uploadPost(req: Request, res: Response) {
-  const { title, body, stack } = req.body;
+  const { title, stack, body } = req.body;
+
+  console.log(title, body, stack);
   try {
+    const postNumber = await Post.countDocuments();
+
+    const createdPost = new Post({
+      postNumber: postNumber + 1,
+      title,
+      body,
+      stack,
+    });
+
+    await createdPost.save();
+    return res.status(200).json("성공");
   } catch {}
 }
