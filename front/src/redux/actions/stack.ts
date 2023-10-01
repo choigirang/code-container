@@ -6,3 +6,5 @@ export function selectStack(stack: string) {
     payload: stack,
   };
 }
+
+export function selectData() {}
