@@ -6,6 +6,8 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { backend, frontend } from "../../constant/stackList";
 import { api } from "../../util/api";
+import { useDispatch } from "react-redux";
+import { changeWrite } from "../../redux/actions/write";
 
 export const EditorForm = () => {
   // 타이틀
@@ -16,6 +18,9 @@ export const EditorForm = () => {
   // EditorState의 비어있는 ContentState 기본 구성으로 새 개체를 반환 => 이렇게 안하면 상태 값을 나중에 변경할 수 없음.
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlContent, setHtmlContent] = useState(""); // 추가: HTML 내용을 저장할 상태
+
+  // 작성 완료 시
+  const dispatch = useDispatch();
 
   // 카테고리 데이터
   const stacks = {
@@ -31,7 +36,6 @@ export const EditorForm = () => {
   // 카테고리 변경
   const categoryHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStack(e.target.value);
-    console.log(e.target.value);
   };
 
   // 에디터의 내용이 변경될 때마다 호출되는 함수
@@ -45,11 +49,16 @@ export const EditorForm = () => {
   const postData = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title || !stack || !htmlContent) return alert("다시");
+    if (!title || !stack || !htmlContent || title === "default")
+      return alert("다시");
     const data = { title, stack, htmlContent };
+
     api
       .post("/posts", data)
-      .then((res) => alert("완료"))
+      .then((res) => {
+        alert("완료");
+        dispatch(changeWrite());
+      })
       .catch((err) => console.log(err));
   };
 
@@ -61,8 +70,11 @@ export const EditorForm = () => {
         <TitleInput onChange={titleHandler} placeholder="제목을 입력하세요." />
         {/* 카테고리 */}
         <SelectBox onChange={categoryHandler}>
+          <option value="default">카테고리</option>
           {Object.keys(stacks).map((stack) => (
-            <option key={stack}>{stacks[stack]}</option>
+            <option key={stack} value={stacks[stack]}>
+              {stacks[stack]}
+            </option>
           ))}
         </SelectBox>
       </TitleWithCategoryBox>
