@@ -13,3 +13,12 @@ export type ChangeWriteAction = ReturnType<typeof changeWrite>;
 export type Stack = {
   [key: string]: string;
 };
+
+// 전달될 데이터 타입
+export type StackOfData = {
+  title: string;
+  number: number;
+  date: string;
+  body: string;
+  category: string;
+};
