@@ -11,6 +11,10 @@ type StackProp = {
 export default function StackList() {
   // 선택한 스택
   const selectedStack = useSelector((state: RootState) => state.stack.stack);
+  // 선택한 데이터의 카테고리(스택)
+  const selectedDataOfStack = useSelector(
+    (state: RootState) => state.dataOfStack.stack
+  );
 
   // 스택 선택
   const dispatch = useDispatch();
@@ -35,7 +39,7 @@ export default function StackList() {
       <StackItem
         key={stack}
         onClick={() => handleSelectStack(stack)}
-        $stack={selectedStack === stack}
+        $stack={selectedStack === stack || selectedDataOfStack === stack}
       >
         {stackList[stack]}
       </StackItem>
@@ -95,7 +99,7 @@ const StackItem = styled.li<StackProp>`
   align-items: center;
   background-color: ${(props) =>
     props.$stack ? "rgba(255, 255, 255, 0.5)" : "none"};
-  font-weight: ${props => props.$stack ? "700" : "300"};
+  font-weight: ${(props) => (props.$stack ? "700" : "300")};
   padding: 10px;
   font-size: 18px;
   transition: all 0.3s;
