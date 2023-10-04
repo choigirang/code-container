@@ -1,7 +1,7 @@
 export type PostType = {
   title: string;
   number: number;
-  date: string;
-  body: string;
+  createdAt: string;
+  htmlContent: string;
   category: string;
 };
