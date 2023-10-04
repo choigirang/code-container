@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { api } from "../../util/api";
 import { keyframes, styled } from "styled-components";
 import { ApiStackData } from "../../type/api";
 import { AiFillFileText } from "react-icons/ai";
+import { StackOfData } from "../../type/aboutRedux";
+import { selectData } from "../../redux/actions/stack";
 
 type ContainerProps = {
   $displayOpt: undefined | ApiStackData[];
@@ -14,8 +16,14 @@ export default function FolderOfStack() {
   const [apiStack, setApiStack] = useState<ApiStackData[] | undefined>(
     undefined
   );
+  // 저장된 redux data
   const stack = useSelector((state: RootState) => state.stack.stack);
 
+  const dispatch = useDispatch();
+
+  // 데이터 api
+  // 초깃값 undefined 시 전체 데이터 받아오기
+  // 선택된 stack 있을 시 해당하는 카테고리 받아오기
   useEffect(() => {
     api.get(`/posts/${stack ? stack : "all"}`).then((res) => {
       if (res.data.length > 0) {
@@ -24,11 +32,21 @@ export default function FolderOfStack() {
     });
   }, [stack]);
 
+  // 클릭한 데이터로 redux 데이터 저장
+  const saveDataOfStack = (stack: StackOfData) => {
+    dispatch(selectData(stack));
+  };
+
   return (
     <Container $displayOpt={apiStack}>
+      {/* data 있을 시 DataBox, 없을 시 NoneData*/}
       {apiStack ? (
         apiStack.map((data) => (
-          <DataBox key={data.number} className="data-item">
+          <DataBox
+            key={data.number}
+            className="data-item"
+            onClick={() => saveDataOfStack(data)}
+          >
             <AiFillFileText className="icon" />
             <p className="title">{data.title}</p>
             <p className="date">{data.createdAt.slice(0, 10)}</p>
@@ -85,6 +103,7 @@ const DataBox = styled.div`
   align-items: center;
   justify-content: center;
   margin: 20px;
+  cursor: pointer;
 
   // 아이콘
   .icon {
