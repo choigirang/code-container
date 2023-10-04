@@ -5,16 +5,28 @@ import FolderOfStack from "./FolderOfStack";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { EditorForm } from "../etc/Editor";
+import EachOfStack from "./EachOfStack";
 
 export default function StackBox() {
+  // 글쓰기 상태 저장
   const write = useSelector((state: RootState) => state.write.write);
+
+  // 선택한 데이터 있을 시 포스팅 페이지 보여주기
+  const selectData = useSelector((state: RootState) => state.dataOfStack);
 
   return (
     <Container>
       {/* 좌측 스택 리스트 */}
       <StackList />
       {/* 우측 스택에 따른 목록, 글 작성 선택 시 작성 페이지로 바뀜 */}
-      {write ? <EditorForm /> : <FolderOfStack />}
+      {write ? (
+        <EditorForm />
+      ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
+      selectData.title ? (
+        <EachOfStack data={selectData} />
+      ) : (
+        <FolderOfStack />
+      )}
     </Container>
   );
 }
