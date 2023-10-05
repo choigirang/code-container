@@ -5,8 +5,8 @@ export async function showPost(req: Request, res: Response) {
   const { stack } = req.params;
 
   try {
-    const post = await Post.find({ stack });
-    const allPost = await Post.find();
+    const post = await Post.find({ stack }).sort({ number: -1 });
+    const allPost = await Post.find().sort({ number: -1 });
 
     if (stack === "all") {
       return res.status(200).json(allPost);
