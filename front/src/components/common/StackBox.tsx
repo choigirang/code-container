@@ -4,9 +4,8 @@ import StackList from "./StackList";
 import FolderOfStack from "./FolderOfStack";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { EditorForm } from "../etc/Editor";
 import EachOfStack from "./EachOfStack";
-import ToastEditor from "../etc/ToastEditor";
+import Editor from "./Editor";
 
 export default function StackBox() {
   // 글쓰기 상태 저장
@@ -21,7 +20,7 @@ export default function StackBox() {
       <StackList />
       {/* 우측 스택에 따른 목록, 글 작성 선택 시 작성 페이지로 바뀜 */}
       {write ? (
-        <ToastEditor />
+        <Editor />
       ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
       selectData.title ? (
         <EachOfStack data={selectData} />
@@ -31,6 +30,7 @@ export default function StackBox() {
     </Container>
   );
 }
+// border 애니메이션
 const animateBorder = keyframes`
   0% {
     border-color: #00bd00;
