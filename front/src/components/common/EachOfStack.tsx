@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { useDispatch } from "react-redux";
 import { resetData } from "../../redux/actions/stack";
 import HtmlContainer from "./HtmlContainer";
+import ToastViewer from "../editor/ToastViewer";
 
 export default function EachOfStack({ data }: { data: StackOfData }) {
   const { title, stack, htmlContent, createdAt } = data;
@@ -28,7 +29,7 @@ export default function EachOfStack({ data }: { data: StackOfData }) {
           <p className="category">{stack}</p>
         </DateCategory>
       </Top>
-      <HtmlContainer data={htmlContent} />
+      <ToastViewer content={htmlContent} />
     </Container>
   );
 }
