@@ -2,6 +2,18 @@
   box-sizing: border-box;
 }
 
+/* toast ui style */
+/* 코드 폰트 */
+.toastui-editor-dark,
+.lang-js {
+  font-size: 20px !important;
+}
+
+/* 주석 */
+.comment {
+  color: rgb(0, 226, 0) !important;
+}
+
 @font-face {
   font-family: "Roboto", sans-serif;
   src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
