@@ -17,7 +17,6 @@ export default function SubmitBtn(props: {
     e.preventDefault();
     const { title, stack, htmlContent } = props;
     const data = { title, stack, htmlContent };
-    console.log(data);
 
     if (!title || !stack || !htmlContent)
       return alert("내용을 모두 입력해야 합니다.");
