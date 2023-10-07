@@ -2,14 +2,26 @@
   box-sizing: border-box;
 }
 
+/* 코드 하이라이트 복사 아이콘 */
+.icon-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(38, 38, 38);
+  padding: 5px 0;
+  color: white !important;
+}
+
 /* toast ui style */
 /* 코드 폰트 */
 .toastui-editor-dark,
 .lang-js {
   font-size: 20px !important;
+  margin-bottom: 20px !important;
 }
 
-/* 주석 */
+/* 코드 하이라이트 주석 */
 .comment {
   color: rgb(0, 226, 0) !important;
 }
