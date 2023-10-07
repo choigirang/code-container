@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import React, { ComponentProps, useEffect, useRef } from "react";
+import React, { ComponentProps, useEffect, useRef, useState } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 
 import { BsFillClipboardCheckFill } from "react-icons/bs";
@@ -10,44 +10,42 @@ import "prismjs/themes/prism.css";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
 import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
-import { styled } from "styled-components";
 
 export default function ToastViewer({ content }: { content: string }) {
   const viewerRef = useRef<Viewer | null>(null);
 
-  // Viewer가 변경될 때마다 실행되는 useEffect
   useEffect(() => {
     handleViewerRendered();
   }, [content]);
 
   const handleViewerRendered = () => {
-    // Viewer 내의 모든 요소 가져오기
     const viewerContainer = viewerRef.current?.getRootElement();
 
     if (viewerContainer) {
       const codeElements = viewerContainer.querySelectorAll("pre");
 
-      // 코드로 작성된 게시글 위에 아이콘 추가
-      codeElements.forEach((codeElement) => {
-        // 아이콘 감쌀 부모 태그
-        const codeContaienr = document.createElement("div");
-        // 부모 태그 스타일 적용
-        codeContaienr.className = "icon-box";
-        // pre 태그 앞에 부모 태그로(아이콘) 추가
-        codeElement.parentNode?.insertBefore(codeContaienr, codeElement);
-        // 부모 태그에 아이콘 추가
-        ReactDOM.render(<BsFillClipboardCheckFill />, codeContaienr);
+      // 코드 하이라이트마다 아이콘 생성 및 이벤트 연결
+      codeElements.forEach((codeElement, index) => {
+        const codeContainer = document.createElement("div");
+        codeContainer.className = "icon-box";
+        codeElement.parentNode?.insertBefore(codeContainer, codeElement);
+
+        // 아이콘 클릭 시 하이라이트 복사 이벤트
+        const clickForCopy = () => {
+          const codeBlock = codeElements[index];
+          const codeBlockText = codeBlock.textContent || "";
+          navigator.clipboard.writeText(codeBlockText).then(() => {
+            alert(`${index + 1}번째 코드가 복사되었습니다.`);
+          });
+        };
+
+        ReactDOM.render(
+          <BsFillClipboardCheckFill onClick={clickForCopy} />,
+          codeContainer
+        );
       });
     }
   };
-
-  // const copyIcon = (
-  //   <div className="copy-icon">
-  //     <BsFillClipboardCheckFill />
-  //   </div>
-  // );
-
-  // ReactDOM.render(copyIcon, codeElement.previousSibling);
 
   return (
     <Viewer
@@ -59,7 +57,14 @@ export default function ToastViewer({ content }: { content: string }) {
   );
 }
 
-const Com = styled.div``;
+// 해결해야 할 타입 에러
+// const copyIcon = (
+//   <div className="copy-icon">
+//     <BsFillClipboardCheckFill />
+//   </div>
+// );
+
+// ReactDOM.render(copyIcon, codeElement.previousSibling);
 
 // 대문자로 작성된 코드 색상 추가를 위한 => 수정 필요
 // textElements.forEach((element) => {
