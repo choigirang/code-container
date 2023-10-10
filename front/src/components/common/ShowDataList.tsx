@@ -10,31 +10,16 @@ import { selectData } from "../../redux/actions/stack";
 import useFetchData from "../../query/useFetchData";
 
 type ContainerProps = {
-  $displayOpt: undefined | ApiStackData[];
+  $displayOpt: boolean;
 };
 
 export default function ShowDataList() {
-  const [apiStack, setApiStack] = useState<ApiStackData[] | undefined>(
-    undefined
-  );
   // 저장된 redux data
   const stack = useSelector((state: RootState) => state.stack.stack);
 
-  const data = useFetchData(stack);
-  console.log(data?.data);
+  const data: ApiStackData[] = useFetchData(stack);
 
   const dispatch = useDispatch();
-
-  // 데이터 api
-  // 초깃값 undefined 시 전체 데이터 받아오기
-  // 선택된 stack 있을 시 해당하는 카테고리 받아오기
-  useEffect(() => {
-    api.get(`/posts/${stack ? stack : "all"}`).then((res) => {
-      if (res.data.length > 0) {
-        setApiStack(res.data);
-      } else setApiStack(undefined);
-    });
-  }, [stack]);
 
   // 클릭한 데이터로 redux 데이터 저장
   const saveDataOfStack = (stack: StackOfData) => {
@@ -42,18 +27,18 @@ export default function ShowDataList() {
   };
 
   return (
-    <Container $displayOpt={apiStack}>
+    <Container $displayOpt={data && data.length > 0}>
       {/* data 있을 시 DataBox, 없을 시 NoneData*/}
-      {apiStack ? (
-        apiStack.map((data) => (
+      {data && data.length > 0 ? (
+        data.map((eachData) => (
           <DataBox
-            key={data.number}
+            key={eachData.number}
             className="data-item"
-            onClick={() => saveDataOfStack(data)}
+            onClick={() => saveDataOfStack(eachData)}
           >
             <AiFillFileText className="icon" />
-            <p className="title">{data.title}</p>
-            <p className="date">{data.createdAt.slice(0, 10)}</p>
+            <p className="date">{eachData.createdAt.slice(0, 10)}</p>
+            <p className="title">{eachData.title}</p>
           </DataBox>
         ))
       ) : (
@@ -105,10 +90,8 @@ const DataBox = styled.div`
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  justify-content: center;
   margin: 20px;
   cursor: pointer;
-
   // 아이콘
   .icon {
     width: 75px;
@@ -120,6 +103,7 @@ const DataBox = styled.div`
 
   // 타이틀
   .title {
+    height: 100%;
     font-size: 18px;
     font-weight: 700;
   }
