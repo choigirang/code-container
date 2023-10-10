@@ -4,10 +4,9 @@ import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { styled } from "styled-components";
 import { useDispatch } from "react-redux";
 import { resetData } from "../../redux/actions/stack";
-import HtmlContainer from "./HtmlContainer";
 import ToastViewer from "../editor/ToastViewer";
 
-export default function EachOfStack({ data }: { data: StackOfData }) {
+export default function ShowEachData({ data }: { data: StackOfData }) {
   const { title, stack, htmlContent, createdAt } = data;
 
   const dispatch = useDispatch();
