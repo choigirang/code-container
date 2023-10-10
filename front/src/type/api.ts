@@ -6,3 +6,10 @@ export type ApiStackData = {
   htmlContent: string;
   createdAt: string;
 };
+
+// 보낼 데이터
+export type PostDataType = {
+  title: string;
+  stack: string;
+  htmlContent: string;
+};
