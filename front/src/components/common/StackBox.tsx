@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { keyframes, styled } from "styled-components";
 import StackList from "./StackList";
-import FolderOfStack from "./FolderOfStack";
+import ShowDataList from "./ShowDataList";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import EachOfStack from "./EachOfStack";
+import ShowEachData from "./ShowEachData";
 import Editor from "./Editor";
 
 export default function StackBox() {
@@ -23,9 +23,9 @@ export default function StackBox() {
         <Editor />
       ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
       selectData.title ? (
-        <EachOfStack data={selectData} />
+        <ShowEachData data={selectData} />
       ) : (
-        <FolderOfStack />
+        <ShowDataList />
       )}
     </Container>
   );
