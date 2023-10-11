@@ -8,6 +8,7 @@ import { AiFillFileText } from "react-icons/ai";
 import { StackOfData } from "../../type/aboutRedux";
 import { selectData } from "../../redux/actions/stack";
 import useFetchData from "../../query/useFetchData";
+import { queryClient } from "../..";
 
 type ContainerProps = {
   $displayOpt: boolean;
@@ -18,6 +19,10 @@ export default function ShowDataList() {
   const stack = useSelector((state: RootState) => state.stack.stack);
 
   const data: ApiStackData[] = useFetchData(stack);
+
+  const dataquery = queryClient.getQueryData(["React"]);
+  console.log(stack);
+  console.log(dataquery);
 
   const dispatch = useDispatch();
 
@@ -92,6 +97,7 @@ const DataBox = styled.div`
   align-items: center;
   margin: 20px;
   cursor: pointer;
+
   // 아이콘
   .icon {
     width: 75px;
