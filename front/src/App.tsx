@@ -1,24 +1,35 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import Background from "./components/common/Background";
 import StackBox from "./components/common/StackBox";
 import { keyframes, styled } from "styled-components";
-import { Provider, useDispatch, useSelector } from "react-redux";
 import store, { RootState } from "./redux/store/store";
 import { VscTerminalPowershell } from "react-icons/vsc";
 import { BsPencilSquare } from "react-icons/bs";
 import { changeAuthority } from "./redux/actions/authority";
 import { changeWrite } from "./redux/actions/write";
 
+const AppContext = createContext();
+
 function App() {
+  const [writeOpen, setWriteOpen] = useState(false);
+
+  const openModal = () => {
+    setWriteOpen(true);
+  };
+
+  const closeModal = () => {
+    setWriteOpen(false);
+  };
+
   return (
-    <Provider store={store}>
+    <AppContext.Provider value={{ writeOpen, setWriteOpen }}>
       <BasicApp>
         {/* 스택 리스트 & 선택한 스택에 따른 목록 */}
         <CheckSuper />
         <StackBox />
         <Background />
       </BasicApp>
-    </Provider>
+    </AppContext.Provider>
   );
 }
 
