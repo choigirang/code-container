@@ -8,7 +8,9 @@ import { BsPencilSquare } from "react-icons/bs";
 import { changeAuthority } from "./redux/actions/authority";
 import { changeWrite } from "./redux/actions/write";
 
-const AppContext = createContext();
+const defaultValue = false;
+
+const AppContext = createContext(defaultValue);
 
 function App() {
   const [writeOpen, setWriteOpen] = useState(false);
@@ -22,7 +24,7 @@ function App() {
   };
 
   return (
-    <AppContext.Provider value={{ writeOpen, setWriteOpen }}>
+    <AppContext.Provider value={writeOpen}>
       <BasicApp>
         {/* 스택 리스트 & 선택한 스택에 따른 목록 */}
         <CheckSuper />
