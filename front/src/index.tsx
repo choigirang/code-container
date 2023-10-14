@@ -1,4 +1,3 @@
-import React, { createContext } from "react";
 import ReactDOM from "react-dom";
 import "./style/index.css";
 import App from "./App";
@@ -13,9 +12,6 @@ export const queryClient = new QueryClient({
     },
   },
 });
-const initialStack = {};
-
-export const AppContext = createContext(initialStack);
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
