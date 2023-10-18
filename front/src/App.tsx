@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import Background from "./components/common/Background";
 import StackBox from "./components/common/StackBox";
 import { keyframes, styled } from "styled-components";
@@ -7,41 +7,49 @@ import { VscTerminalPowershell } from "react-icons/vsc";
 import { BsPencilSquare } from "react-icons/bs";
 import { changeAuthority } from "./redux/actions/authority";
 import { changeWrite } from "./redux/actions/write";
+import { Provider } from "react-redux";
 
-const defaultValue = false;
+type DefaultValue = {
+  writeOpen: boolean;
+  setWriteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  checkAuth: boolean;
+  setCheckAuth: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const AppContext = createContext(defaultValue);
+export const AppContext = createContext<DefaultValue>({
+  writeOpen: false,
+  setWriteOpen: () => {},
+  checkAuth: false,
+  setCheckAuth: () => {},
+});
 
 function App() {
-  const [writeOpen, setWriteOpen] = useState(false);
-
-  const openModal = () => {
-    setWriteOpen(true);
-  };
-
-  const closeModal = () => {
-    setWriteOpen(false);
-  };
+  const [writeOpen, setWriteOpen] = useState<boolean>(false);
+  const [checkAuth, setCheckAuth] = useState<boolean>(false);
 
   return (
-    <AppContext.Provider value={writeOpen}>
-      <BasicApp>
-        {/* 스택 리스트 & 선택한 스택에 따른 목록 */}
-        <CheckSuper />
-        <StackBox />
-        <Background />
-      </BasicApp>
-    </AppContext.Provider>
+    <Provider store={store}>
+      <AppContext.Provider
+        value={{ writeOpen, setWriteOpen, checkAuth, setCheckAuth }}
+      >
+        <BasicApp>
+          {/* 스택 리스트 & 선택한 스택에 따른 목록 */}
+          <CheckSuper />
+          <StackBox />
+          <Background />
+        </BasicApp>
+      </AppContext.Provider>
+    </Provider>
   );
 }
 
 function CheckSuper() {
+  const { writeOpen, setWriteOpen, checkAuth, setCheckAuth } =
+    useContext(AppContext);
+
   // 계정 확인 입력창
   const [openInput, setOpenInput] = useState<boolean>(false);
   // 계정 확인
-  const superUser = useSelector((state: RootState) => state.super.authority);
-  // redux 상태
-  const dispatch = useDispatch();
 
   // 코드 입력 핸들러
   const submitInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -50,7 +58,7 @@ function CheckSuper() {
 
       // 입력된 코드 확인
       if (inputValue === process.env.REACT_APP_SUPER_ACCOUNT) {
-        dispatch(changeAuthority(true));
+        setCheckAuth(true);
         setOpenInput(false);
         alert("계정 확인 완료");
       } else {
@@ -58,6 +66,7 @@ function CheckSuper() {
       }
     }
   };
+
   return (
     <div>
       {/* 아이콘 클릭 시 코드 입력창 */}
@@ -69,10 +78,10 @@ function CheckSuper() {
         />
       )}
       {/* 코드 입력 아이콘 || 게시글 작성 아이콘 */}
-      {superUser ? (
+      {checkAuth ? (
         <BsPencilSquare
           className="icons"
-          onClick={() => dispatch(changeWrite())}
+          onClick={() => setWriteOpen(!writeOpen)}
         />
       ) : (
         <VscTerminalPowershell
