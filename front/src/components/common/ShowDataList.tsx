@@ -20,9 +20,7 @@ export default function ShowDataList() {
 
   const data: ApiStackData[] = useFetchData(stack);
 
-  const dataquery = queryClient.getQueryData(["React"]);
-  console.log(queryClient.getQueryCache());
-  console.log(dataquery);
+  // const dataquery = queryClient.getQueryData();
 
   const dispatch = useDispatch();
 
