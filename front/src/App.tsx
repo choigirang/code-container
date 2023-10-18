@@ -10,30 +10,36 @@ import { changeWrite } from "./redux/actions/write";
 import { Provider } from "react-redux";
 
 type DefaultValue = {
-  writeOpen: boolean;
-  setWriteOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  checkAuth: boolean;
-  setCheckAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  // writeOpen: boolean;
+  // setWriteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // checkAuth: boolean;
+  // setCheckAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  user: { name: string; age: number };
+  setUser: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      age: number;
+    }>
+  >;
 };
 
 export const AppContext = createContext<DefaultValue>({
-  writeOpen: false,
-  setWriteOpen: () => {},
-  checkAuth: false,
-  setCheckAuth: () => {},
+  // writeOpen: false,
+  // setWriteOpen: () => {},
+  // checkAuth: false,
+  // setCheckAuth: () => {},
+  user: { name: "choi", age: 1 },
+  setUser: () => {},
 });
 
 function App() {
-  const [writeOpen, setWriteOpen] = useState<boolean>(false);
-  const [checkAuth, setCheckAuth] = useState<boolean>(false);
+  const [user, setUser] = useState({ name: "choi", age: 1 });
+  // const [checkAuth, setCheckAuth] = useState<boolean>(false);
 
   return (
     <Provider store={store}>
-      <AppContext.Provider
-        value={{ writeOpen, setWriteOpen, checkAuth, setCheckAuth }}
-      >
+      <AppContext.Provider value={{ user, setUser }}>
         <BasicApp>
-          {/* 스택 리스트 & 선택한 스택에 따른 목록 */}
           <CheckSuper />
           <StackBox />
           <Background />
@@ -44,8 +50,10 @@ function App() {
 }
 
 function CheckSuper() {
-  const { writeOpen, setWriteOpen, checkAuth, setCheckAuth } =
-    useContext(AppContext);
+  // const { writeOpen, setWriteOpen, checkAuth, setCheckAuth } =
+  //   useContext(AppContext);
+
+  const { setUser } = useContext(AppContext);
 
   // 계정 확인 입력창
   const [openInput, setOpenInput] = useState<boolean>(false);
@@ -57,13 +65,13 @@ function CheckSuper() {
       const inputValue = e.currentTarget.value;
 
       // 입력된 코드 확인
-      if (inputValue === process.env.REACT_APP_SUPER_ACCOUNT) {
-        setCheckAuth(true);
-        setOpenInput(false);
-        alert("계정 확인 완료");
-      } else {
-        alert("일치하지 않는 코드입니다.");
-      }
+      // if (inputValue === process.env.REACT_APP_SUPER_ACCOUNT) {
+      //   setCheckAuth(true);
+      //   setOpenInput(false);
+      //   alert("계정 확인 완료");
+      // } else {
+      //   alert("일치하지 않는 코드입니다.");
+      // }
     }
   };
 
@@ -78,7 +86,7 @@ function CheckSuper() {
         />
       )}
       {/* 코드 입력 아이콘 || 게시글 작성 아이콘 */}
-      {checkAuth ? (
+      {/* {checkAuth ? (
         <BsPencilSquare
           className="icons"
           onClick={() => setWriteOpen(!writeOpen)}
@@ -88,7 +96,7 @@ function CheckSuper() {
           className="icons"
           onClick={() => setOpenInput(!openInput)}
         />
-      )}
+      )} */}
     </div>
   );
 }
