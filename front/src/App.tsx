@@ -53,7 +53,7 @@ function CheckSuper() {
   // const { writeOpen, setWriteOpen, checkAuth, setCheckAuth } =
   //   useContext(AppContext);
 
-  const { setUser } = useContext(AppContext);
+  const { user, setUser } = useContext(AppContext);
 
   // 계정 확인 입력창
   const [openInput, setOpenInput] = useState<boolean>(false);
@@ -61,6 +61,8 @@ function CheckSuper() {
 
   // 코드 입력 핸들러
   const submitInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    setUser((prevUser) => ({ ...prevUser, age: 25 /* 원하는 나이로 변경 */ }));
+    console.log(user);
     if (e.key === "Enter") {
       const inputValue = e.currentTarget.value;
 
@@ -78,13 +80,13 @@ function CheckSuper() {
   return (
     <div>
       {/* 아이콘 클릭 시 코드 입력창 */}
-      {openInput && (
+      {
         <InputEle
           placeholder="입력 후 Enter를 누르세요."
           onKeyDown={submitInput}
           type="password"
         />
-      )}
+      }
       {/* 코드 입력 아이콘 || 게시글 작성 아이콘 */}
       {/* {checkAuth ? (
         <BsPencilSquare

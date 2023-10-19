@@ -4,6 +4,8 @@ import { styled } from "styled-components";
 const MatrixAnimation: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  console.log(123);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
