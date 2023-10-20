@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 import Background from "./components/common/Background";
 import StackBox from "./components/common/StackBox";
 import { keyframes, styled } from "styled-components";
@@ -10,50 +10,63 @@ import { changeWrite } from "./redux/actions/write";
 import { Provider } from "react-redux";
 
 type DefaultValue = {
-  // writeOpen: boolean;
-  // setWriteOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  // checkAuth: boolean;
-  // setCheckAuth: React.Dispatch<React.SetStateAction<boolean>>;
-  user: { name: string; age: number };
-  setUser: React.Dispatch<
-    React.SetStateAction<{
-      name: string;
-      age: number;
-    }>
-  >;
+  writeOpen: boolean;
+  setWriteOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  checkAuth: boolean;
+  setCheckAuth: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const AppContext = createContext<DefaultValue>({
-  // writeOpen: false,
-  // setWriteOpen: () => {},
-  // checkAuth: false,
-  // setCheckAuth: () => {},
-  user: { name: "choi", age: 1 },
-  setUser: () => {},
+  writeOpen: false,
+  setWriteOpen: () => {},
+  checkAuth: false,
+  setCheckAuth: () => {},
 });
 
-function App() {
-  const [user, setUser] = useState({ name: "choi", age: 1 });
-  // const [checkAuth, setCheckAuth] = useState<boolean>(false);
+export const Example1Context = createContext({ user: "choi", age: 0 });
+export const Example2Context = createContext<
+  React.Dispatch<React.SetStateAction<{ user: string; age: number }>>
+>(() => {});
 
+function App() {
+  const [writeOpen, setWriteOpen] = useState<boolean>(false);
+  const [checkAuth, setCheckAuth] = useState<boolean>(false);
+  const [user, setUser] = useState({ user: "", age: 0 });
+
+  const setUserCallback: React.Dispatch<
+    React.SetStateAction<{ user: string; age: number }>
+  > = (newUser) => {
+    setUser((prevUser) => ({ ...prevUser, ...newUser }));
+  };
   return (
     <Provider store={store}>
-      <AppContext.Provider value={{ user, setUser }}>
-        <BasicApp>
-          <CheckSuper />
-          <StackBox />
-          <Background />
-        </BasicApp>
+      <AppContext.Provider
+        value={{
+          writeOpen,
+          setWriteOpen,
+          checkAuth,
+          setCheckAuth,
+        }}
+      >
+        <Example1Context.Provider value={user}>
+          <Example2Context.Provider value={setUserCallback}>
+            <BasicApp>
+              <CheckSuper />
+              <StackBox />
+              <Background />
+            </BasicApp>
+          </Example2Context.Provider>
+        </Example1Context.Provider>
       </AppContext.Provider>
     </Provider>
   );
 }
 
 function CheckSuper() {
-  // const { writeOpen, setWriteOpen, checkAuth, setCheckAuth } =
-  //   useContext(AppContext);
-
-  const { user, setUser } = useContext(AppContext);
+  const { writeOpen, setWriteOpen, checkAuth, setCheckAuth } =
+    useContext(AppContext);
+  const { user, age } = useContext(Example1Context);
+  const setUser = useContext(Example2Context);
 
   // 계정 확인 입력창
   const [openInput, setOpenInput] = useState<boolean>(false);
@@ -61,34 +74,33 @@ function CheckSuper() {
 
   // 코드 입력 핸들러
   const submitInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    setUser((prevUser) => ({ ...prevUser, age: 25 /* 원하는 나이로 변경 */ }));
-    console.log(user);
-    if (e.key === "Enter") {
-      const inputValue = e.currentTarget.value;
+    setUser((prev) => ({ ...prev, age: 25 }));
+    // if (e.key === "Enter") {
+    //   const inputValue = e.currentTarget.value;
 
-      // 입력된 코드 확인
-      // if (inputValue === process.env.REACT_APP_SUPER_ACCOUNT) {
-      //   setCheckAuth(true);
-      //   setOpenInput(false);
-      //   alert("계정 확인 완료");
-      // } else {
-      //   alert("일치하지 않는 코드입니다.");
-      // }
-    }
+    //   // 입력된 코드 확인
+    //   if (inputValue === process.env.REACT_APP_SUPER_ACCOUNT) {
+    //     setCheckAuth(true);
+    //     setOpenInput(false);
+    //     alert("계정 확인 완료");
+    //   } else {
+    //     alert("일치하지 않는 코드입니다.");
+    //   }
+    // }
   };
 
   return (
     <div>
       {/* 아이콘 클릭 시 코드 입력창 */}
-      {
+      {openInput && (
         <InputEle
           placeholder="입력 후 Enter를 누르세요."
           onKeyDown={submitInput}
           type="password"
         />
-      }
+      )}
       {/* 코드 입력 아이콘 || 게시글 작성 아이콘 */}
-      {/* {checkAuth ? (
+      {checkAuth ? (
         <BsPencilSquare
           className="icons"
           onClick={() => setWriteOpen(!writeOpen)}
@@ -98,7 +110,7 @@ function CheckSuper() {
           className="icons"
           onClick={() => setOpenInput(!openInput)}
         />
-      )} */}
+      )}
     </div>
   );
 }
