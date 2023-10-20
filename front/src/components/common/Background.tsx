@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { styled } from "styled-components";
 
-const MatrixAnimation: React.FC = () => {
+const MatrixAnimation = React.memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   console.log(123);
@@ -54,7 +54,7 @@ const MatrixAnimation: React.FC = () => {
       style={{ display: "block", background: "#000" }}
     />
   );
-};
+});
 
 const Canva = styled.canvas`
   width: 100%;
