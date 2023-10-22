@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StackOfData } from "../../type/aboutRedux";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { styled } from "styled-components";
-import { useDispatch } from "react-redux";
-import { resetData } from "../../redux/actions/stack";
 import ToastViewer from "../editor/ToastViewer";
+import { SelectDataContext } from "../../provider/SelectDataProvider";
 
 /**
  * StackBox에서 클릭한 데이터가 있는지
@@ -12,14 +11,8 @@ import ToastViewer from "../editor/ToastViewer";
  * @returns 상세 데이터를 포함한 페이지를 보여주는 컴포넌트
  */
 export default function ShowEachData({ data }: { data: StackOfData }) {
+  const { initData } = useContext(SelectDataContext);
   const { title, stack, htmlContent, createdAt } = data;
-
-  const dispatch = useDispatch();
-
-  // 선택한 데이터 초기화
-  const initData = () => {
-    dispatch(resetData());
-  };
 
   return (
     <Container>
