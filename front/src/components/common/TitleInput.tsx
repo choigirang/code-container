@@ -1,6 +1,11 @@
 import React, { ComponentProps, useState } from "react";
 import { styled } from "styled-components";
 
+/**
+ *
+ * @param {stirng} setTitle title 설정
+ * @returns 에디터로부터 전달받아, 데이터의 title을 설정하는 컴포넌트
+ */
 export default function TitleInput({
   title,
 }: {

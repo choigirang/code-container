@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import { backend, frontend } from "../../constant/stackList";
 
+/**
+ *
+ * @param {stackList} setStack category list
+ * @returns 에디터로부터 카테고리 목록을 전달받아, 데이터의 stack을 설정하는 컴포넌트
+ */
 export default function CategorySelect({
   setStack,
 }: {

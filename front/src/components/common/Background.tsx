@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { styled } from "styled-components";
 
+/**
+ * 배경화면 컴포넌트
+ * @returns canvas
+ */
 const MatrixAnimation = React.memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  console.log(123);
 
   useEffect(() => {
     const canvas = canvasRef.current;

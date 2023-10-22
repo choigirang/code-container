@@ -6,6 +6,11 @@ import { useDispatch } from "react-redux";
 import { resetData } from "../../redux/actions/stack";
 import ToastViewer from "../editor/ToastViewer";
 
+/**
+ * StackBox에서 클릭한 데이터가 있는지
+ * 클릭한 스택에 대한 data를 context로부터 전달받아
+ * @returns 상세 데이터를 포함한 페이지를 보여주는 컴포넌트
+ */
 export default function ShowEachData({ data }: { data: StackOfData }) {
   const { title, stack, htmlContent, createdAt } = data;
 

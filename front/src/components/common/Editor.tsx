@@ -5,6 +5,10 @@ import SubmitBtn from "./SubmitBtn";
 import { styled } from "styled-components";
 import ToastEditor from "../editor/ToastEditor";
 
+/**
+ * toast ui를 이용한 에디터
+ * @returns 타이틀, 카테고리, 본문 설정과 데이터 전송을 위한 Submit버튼
+ */
 export default function Editor() {
   // 타이틀
   const [title, setTitle] = useState<string>("");
