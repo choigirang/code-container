@@ -4,6 +4,7 @@ import { ApiStackData } from "../type/api";
 type SelectDataContextDefaultValue = {
   stack: string;
   setStack: React.Dispatch<React.SetStateAction<string>>;
+  initStack: () => void;
   data: {
     number: number;
     stack: string;
@@ -12,11 +13,13 @@ type SelectDataContextDefaultValue = {
     createdAt: string;
   };
   setData: React.Dispatch<React.SetStateAction<ApiStackData>>;
+  initData: () => void;
 };
 
 export const SelectDataContext = createContext<SelectDataContextDefaultValue>({
   stack: "",
   setStack: () => {},
+  initStack: () => {},
   data: {
     number: 0,
     stack: "",
@@ -25,6 +28,7 @@ export const SelectDataContext = createContext<SelectDataContextDefaultValue>({
     createdAt: "",
   },
   setData: () => {},
+  initData: () => {},
 });
 
 export default function SelectDataProvider({
@@ -42,8 +46,25 @@ export default function SelectDataProvider({
     createdAt: "",
   });
 
+  // 초기화 함수 정의
+  const initStack = () => {
+    setStack("");
+  };
+
+  const initData = () => {
+    setData({
+      number: 0,
+      stack: "",
+      title: "",
+      htmlContent: "",
+      createdAt: "",
+    });
+  };
+
   return (
-    <SelectDataContext.Provider value={{ stack, setStack, data, setData }}>
+    <SelectDataContext.Provider
+      value={{ stack, setStack, initStack, data, setData, initData }}
+    >
       {children}
     </SelectDataContext.Provider>
   );
