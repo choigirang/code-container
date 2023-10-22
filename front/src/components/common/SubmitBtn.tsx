@@ -1,16 +1,23 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, useContext } from "react";
 import { styled } from "styled-components";
 import { api } from "../../util/api";
 import { useDispatch } from "react-redux";
 import { changeWrite } from "../../redux/actions/write";
+import { WriteContext } from "../../provider/WriteProvider";
 
+/**
+ *
+ * @param {stirng} title
+ * @param {string} stack
+ * @param {string} htmlContent
+ * @returns Ediotr 컴포넌트로부터 데이터를 전달받아 fetch
+ */
 export default function SubmitBtn(props: {
   title: string;
   stack: string;
   htmlContent: string;
 }) {
-  // 제출 후 글 작성 상태를 해제하기 위한 reducer
-  const dispatch = useDispatch();
+  const { setWrite } = useContext(WriteContext);
 
   // api 제출 이벤트
   const saveHandler: ComponentProps<"button">["onSubmit"] = (e) => {
@@ -25,7 +32,7 @@ export default function SubmitBtn(props: {
       .post("/posts", data)
       .then((res) => {
         alert("작성이 완료되었습니다.");
-        dispatch(changeWrite());
+        setWrite((prev) => !prev);
       })
       .catch((err) => {
         alert("콘솔 확인");

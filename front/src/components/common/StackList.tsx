@@ -1,27 +1,31 @@
 import { styled } from "styled-components";
 import { frontend, backend } from "../../constant/stackList";
 import { useDispatch, useSelector } from "react-redux";
-import { selectStack } from "../../redux/actions/stack";
-import { RootState } from "../../redux/store/store";
+import { useContext } from "react";
+import { SelectDataContext } from "../../provider/SelectDataProvider";
 
 type StackProp = {
   $stack: boolean;
 };
 
+/**
+ * 좌측 목록으로 constan의 스택 목록을 보여줄 컴포넌트
+ * StackBox의 하위 컴포넌트
+ * @returns 클릭한 Stack을 context에 저장하여, 해당하는 데이터를 반환
+ */
 export default function StackList() {
-  // 선택한 스택
-  const selectedStack = useSelector((state: RootState) => state.stack.stack);
-  // 선택한 데이터의 카테고리(스택)
-  const selectedDataOfStack = useSelector(
-    (state: RootState) => state.dataOfStack.stack
-  );
+  const {
+    stack: selectedStack,
+    setStack,
+    data,
+  } = useContext(SelectDataContext);
 
-  // 스택 선택
-  const dispatch = useDispatch();
+  // 선택한 데이터의 카테고리(스택)
+  const selectedDataOfStack = data && data.stack;
 
   // redux 선택한 stack 저장하기
   const handleSelectStack = (stack: string) => {
-    dispatch(selectStack(stack));
+    setStack(stack);
   };
 
   // 스택 모음

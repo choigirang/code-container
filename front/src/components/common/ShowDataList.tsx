@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { api } from "../../util/api";
+import { useContext, useEffect, useState } from "react";
 import { keyframes, styled } from "styled-components";
 import { ApiStackData } from "../../type/api";
 import { AiFillFileText } from "react-icons/ai";
 import { StackOfData } from "../../type/aboutRedux";
-import { selectData } from "../../redux/actions/stack";
 import useFetchData from "../../query/useFetchData";
 import { queryClient } from "../..";
+import { SelectDataContext } from "../../provider/SelectDataProvider";
 
 type ContainerProps = {
   $displayOpt: boolean;
 };
 
+/**
+ * StackBox에서 클릭한 데이터가 있는지
+ * 전체 또는 선택한 스택에 맞는 데이터 불러오는 컴포넌트
+ * @returns Context의 data 유무에 따른 데이터 목록을 반환하는 컴포넌트
+ */
 export default function ShowDataList() {
-  // 저장된 redux data
-  const stack = useSelector((state: RootState) => state.stack.stack);
+  // 저장된 context data
+  const { stack, setData } = useContext(SelectDataContext);
 
   const data: ApiStackData[] = useFetchData(stack);
 
   // const dataquery = queryClient.getQueryData();
 
-  const dispatch = useDispatch();
-
   // 클릭한 데이터로 redux 데이터 저장
   const saveDataOfStack = (stack: StackOfData) => {
-    dispatch(selectData(stack));
+    setData(stack);
   };
 
   return (
