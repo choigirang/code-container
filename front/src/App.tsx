@@ -6,10 +6,11 @@ import { AppProvider } from "./provider/AppProvider";
 import AuthProvider from "./provider/AuthProvider";
 import WriteProvider from "./provider/WriteProvider";
 import { CheckUser } from "./components/common/CheckUser";
+import SelectDataContext from "./provider/SelectDataProvider";
 
 function App() {
   return (
-    <AppProvider contexts={[AuthProvider, WriteProvider]}>
+    <AppProvider contexts={[AuthProvider, WriteProvider, SelectDataContext]}>
       <BasicApp>
         <CheckUser />
         <StackBox />
