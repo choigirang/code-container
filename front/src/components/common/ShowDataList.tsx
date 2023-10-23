@@ -18,9 +18,9 @@ type ContainerProps = {
  */
 export default function ShowDataList() {
   // 저장된 context data
-  const { stack, setData } = useContext(SelectDataContext);
+  const { stack: selectedStack, setData } = useContext(SelectDataContext);
 
-  const data: ApiStackData[] = useFetchData(stack);
+  const data: ApiStackData[] = useFetchData(selectedStack);
 
   // const dataquery = queryClient.getQueryData();
 
