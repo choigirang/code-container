@@ -23,7 +23,7 @@ export default function StackList() {
   // 선택한 데이터의 카테고리(스택)
   const selectedDataOfStack = data && data.stack;
 
-  // redux 선택한 stack 저장하기
+  // context 선택한 stack 저장하기
   const handleSelectStack = (stack: string) => {
     setStack(stack);
   };
