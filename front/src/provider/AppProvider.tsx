@@ -1,6 +1,5 @@
 // AppProvider.tsx
 import React from "react";
-import { JsxElement } from "typescript";
 
 type ContextProviderProps<T> = {
   contexts: React.FC<T>[];
