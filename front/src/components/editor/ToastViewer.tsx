@@ -39,6 +39,10 @@ export default function ToastViewer({ content }: { content: string }) {
           });
         };
 
+        codeContainer.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+        });
+
         ReactDOM.render(
           <BsFillClipboardCheckFill onClick={clickForCopy} />,
           codeContainer
