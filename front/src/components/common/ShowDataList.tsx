@@ -24,7 +24,7 @@ export default function ShowDataList() {
 
   // const dataquery = queryClient.getQueryData();
 
-  // 클릭한 데이터로 redux 데이터 저장
+  // 클릭한 데이터로 context 데이터 저장
   const saveDataOfStack = (stack: StackOfData) => {
     setData(stack);
   };
