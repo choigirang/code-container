@@ -17,6 +17,8 @@ export async function showPost(req: Request, res: Response) {
   }
 }
 
+export async function searchPost(req: Request, res: Response) {}
+
 export async function uploadPost(req: Request, res: Response) {
   const { title, stack, htmlContent } = req.body;
 
