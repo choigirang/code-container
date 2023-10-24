@@ -22,7 +22,7 @@ export default function useAddPost(data: { [key: string]: string }) {
 
   return useMutation(addPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries([]);
+      queryClient.invalidateQueries(["all"]);
     },
   });
 }
