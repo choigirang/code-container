@@ -18,6 +18,7 @@ export default function StackList() {
     stack: selectedStack,
     setStack,
     data,
+    initData,
   } = useContext(SelectDataContext);
 
   // 선택한 데이터의 카테고리(스택)
@@ -25,7 +26,9 @@ export default function StackList() {
 
   // context 선택한 stack 저장하기
   const handleSelectStack = (stack: string) => {
-    setStack(stack);
+    if (selectedStack !== stack) setStack(stack);
+    else setStack("all");
+    initData();
   };
 
   // 스택 모음
