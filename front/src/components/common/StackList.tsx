@@ -3,6 +3,7 @@ import { frontend, backend } from "../../constant/stackList";
 import { useDispatch, useSelector } from "react-redux";
 import { useContext } from "react";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
+import Search from "./Search";
 
 type StackProp = {
   $stack: boolean;
@@ -56,6 +57,7 @@ export default function StackList() {
   // 각각의 스택 목록을 렌더링
   return (
     <Container>
+      <Search />
       {Object.entries(stacks).map(([stackType, stackList]) => (
         <div key={stackType}>
           <Title>{stackType}</Title>
@@ -95,7 +97,7 @@ const Title = styled.p`
   font-size: 21px;
   font-weight: bold;
   border: solid 2px green;
-  border-radius: 3px;
+  border-radius: 10px;
 `;
 
 // 개별 스택
