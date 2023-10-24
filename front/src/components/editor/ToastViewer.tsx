@@ -30,23 +30,20 @@ export default function ToastViewer({ content }: { content: string }) {
         codeContainer.className = "icon-box";
         codeElement.parentNode?.insertBefore(codeContainer, codeElement);
 
+        codeContainer.addEventListener("mouseover", function () {
+          this.style.cursor = "pointer";
+        });
+
         // 아이콘 클릭 시 하이라이트 복사 이벤트
-        const clickForCopy = () => {
+        codeContainer.addEventListener("click", function () {
           const codeBlock = codeElements[index];
           const codeBlockText = codeBlock.textContent || "";
           navigator.clipboard.writeText(codeBlockText).then(() => {
             alert(`${index + 1}번째 코드가 복사되었습니다.`);
           });
-        };
-
-        codeContainer.addEventListener("mouseover", function () {
-          this.style.cursor = "pointer";
         });
 
-        ReactDOM.render(
-          <BsFillClipboardCheckFill onClick={clickForCopy} />,
-          codeContainer
-        );
+        ReactDOM.render(<BsFillClipboardCheckFill />, codeContainer);
       });
     }
   };
