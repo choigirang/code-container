@@ -2,6 +2,7 @@ import ReactDOM from "react-dom";
 import "./style/index.css";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,6 +16,7 @@ export const queryClient = new QueryClient({
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
+    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-left" /> */}
     <App />
   </QueryClientProvider>,
   document.getElementById("root")
