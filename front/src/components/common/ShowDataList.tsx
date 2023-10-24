@@ -6,6 +6,8 @@ import { StackOfData } from "../../type/aboutRedux";
 import useFetchData from "../../query/useFetchData";
 import { queryClient } from "../..";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
+import { UseQueryResult } from "react-query";
+import { AxiosResponse } from "axios";
 
 type ContainerProps = {
   $displayOpt: boolean;
@@ -20,7 +22,9 @@ export default function ShowDataList() {
   // 저장된 context data
   const { stack: selectedStack, setData } = useContext(SelectDataContext);
 
-  const data: ApiStackData[] = useFetchData(selectedStack);
+  const { posts: data } = useFetchData(selectedStack);
+
+  const postData = data.data?.data || [];
 
   // const dataquery = queryClient.getQueryData();
 
@@ -30,10 +34,10 @@ export default function ShowDataList() {
   };
 
   return (
-    <Container $displayOpt={data && data.length > 0}>
+    <Container $displayOpt={data && postData.length > 0}>
       {/* data 있을 시 DataBox, 없을 시 NoneData*/}
-      {data && data.length > 0 ? (
-        data.map((eachData) => (
+      {postData && postData.length > 0 ? (
+        postData.map((eachData) => (
           <DataBox
             key={eachData.number}
             className="data-item"
@@ -71,6 +75,8 @@ const Container = styled.div<ContainerProps>`
       ? "grid-template-columns: repeat(5, 1fr);" // 그리드 아이템 너비 설정
       : ""}
   color: white;
+  align-items: start;
+  align-self: start;
 
   .data-item {
     aspect-ratio: 1; // 너비와 높이의 비율을 1:1로 설정
@@ -102,12 +108,14 @@ const DataBox = styled.div`
     height: 75px;
     color: white;
     position: relative;
-    animation: ${animateWave} 1s infinite;
+
+    &:hover {
+      animation: ${animateWave} 1s infinite;
+    }
   }
 
   // 타이틀
   .title {
-    height: 100%;
     font-size: 18px;
     font-weight: 700;
   }
