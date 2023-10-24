@@ -4,6 +4,8 @@ import { api } from "../../util/api";
 import { useDispatch } from "react-redux";
 import { changeWrite } from "../../redux/actions/write";
 import { WriteContext } from "../../provider/WriteProvider";
+import useAddPost from "../../query/useAddPost";
+import { queryClient } from "../..";
 
 /**
  *
@@ -17,27 +19,18 @@ export default function SubmitBtn(props: {
   stack: string;
   htmlContent: string;
 }) {
-  const { setWrite } = useContext(WriteContext);
+  const { title, stack, htmlContent } = props;
+  const data = { title, stack, htmlContent };
+  const { mutate } = useAddPost(data);
 
   // api 제출 이벤트
   const saveHandler: ComponentProps<"button">["onSubmit"] = (e) => {
     e.preventDefault();
-    const { title, stack, htmlContent } = props;
-    const data = { title, stack, htmlContent };
 
     if (!title || !stack || !htmlContent)
       return alert("내용을 모두 입력해야 합니다.");
 
-    api
-      .post("/posts", data)
-      .then((res) => {
-        alert("작성이 완료되었습니다.");
-        setWrite((prev) => !prev);
-      })
-      .catch((err) => {
-        alert("콘솔 확인");
-        console.log(err);
-      });
+    mutate();
   };
 
   return <Btn onClick={saveHandler}>저장하기</Btn>;
