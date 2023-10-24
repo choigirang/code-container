@@ -25,14 +25,16 @@ export default function StackBox() {
       {/* 좌측 스택 리스트 */}
       <StackList />
       {/* 우측 스택에 따른 목록, 글 작성 선택 시 작성 페이지로 바뀜 */}
-      {write ? (
-        <Editor />
-      ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
-      selectData.title ? (
-        <ShowEachData data={selectData} />
-      ) : (
-        <ShowDataList />
-      )}
+      <OverFlowStyle>
+        {write ? (
+          <Editor />
+        ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
+        selectData.title ? (
+          <ShowEachData data={selectData} />
+        ) : (
+          <ShowDataList />
+        )}
+      </OverFlowStyle>
     </Container>
   );
 }
@@ -58,4 +60,12 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
   animation: ${animateBorder} 2s linear infinite; /* border 애니메이션 적용 */
+`;
+
+// 우측 박스만 overflow
+const OverFlowStyle = styled.div`
+  overflow: scroll;
+  height: 100%;
+  display: flex;
+  align-content: center;
 `;
