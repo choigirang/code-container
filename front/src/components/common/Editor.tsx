@@ -1,15 +1,18 @@
-import { ComponentProps, useState } from "react";
+import { ComponentProps, useContext, useState } from "react";
 import CategorySelect from "../common/CategorySelect";
 import TitleInput from "../common/TitleInput";
 import SubmitBtn from "./SubmitBtn";
 import { styled } from "styled-components";
 import ToastEditor from "../editor/ToastEditor";
+import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { WriteContext } from "../../provider/WriteProvider";
 
 /**
  * toast ui를 이용한 에디터
  * @returns 타이틀, 카테고리, 본문 설정과 데이터 전송을 위한 Submit버튼
  */
 export default function Editor() {
+  const { setWrite } = useContext(WriteContext);
   // 타이틀
   const [title, setTitle] = useState<string>("");
   // 카테고리
@@ -21,8 +24,15 @@ export default function Editor() {
   return (
     <Container>
       <TitleCategoryBox>
-        {/* 타이틀 입력 */}
-        <TitleInput title={setTitle} />
+        <Left>
+          {/* 뒤로가기 */}
+          <BsArrowLeftCircleFill
+            className="icon"
+            onClick={(prev) => setWrite(!prev)}
+          />
+          {/* 타이틀 입력 */}
+          <TitleInput title={setTitle} />
+        </Left>
         {/* 카테고리 선택 */}
         <CategorySelect setStack={setStack} />
       </TitleCategoryBox>
@@ -50,4 +60,19 @@ const TitleCategoryBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+// 좌측 묶음
+const Left = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .icon {
+    color: white;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
 `;
