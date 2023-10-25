@@ -57,7 +57,6 @@ export default function StackList() {
   // 각각의 스택 목록을 렌더링
   return (
     <Container>
-      <Search />
       {Object.entries(stacks).map(([stackType, stackList]) => (
         <div key={stackType}>
           <Title>{stackType}</Title>
@@ -94,7 +93,7 @@ const Title = styled.p`
   align-items: center;
   justify-content: center;
   letter-spacing: 2px;
-  font-size: 21px;
+  font-size: 18px;
   font-weight: bold;
   border: solid 2px green;
   border-radius: 10px;
