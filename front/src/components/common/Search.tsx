@@ -1,5 +1,11 @@
-import React, { ComponentProps, SetStateAction, useRef, useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
+import React, {
+  ComponentProps,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { styled } from "styled-components";
 import useSearchData from "../../query/useSearchData";
 
@@ -19,9 +25,15 @@ export default function Search({
     }
   };
 
+  let inputValue = inputRef.current ? inputRef.current.value : "";
+
   const keywordClickHandler: ComponentProps<"div">["onClick"] = () => {
-    const inputValue = inputRef.current ? inputRef.current.value : "";
     setKeyword(inputValue);
+  };
+
+  const initKeyword = () => {
+    setKeyword("");
+    inputValue = "";
   };
 
   return (
@@ -31,8 +43,8 @@ export default function Search({
         ref={inputRef}
         placeholder="검색어를 입력하세요."
       />
-      <Btn onClick={keywordClickHandler}>
-        <AiOutlineSearch className="icon" />
+      <Btn onClick={keyword ? initKeyword : keywordClickHandler}>
+        {keyword ? <AiOutlineClose /> : <AiOutlineSearch className="icon" />}
       </Btn>
     </Container>
   );
