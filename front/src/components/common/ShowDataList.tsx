@@ -6,6 +6,7 @@ import { StackOfData } from "../../type/aboutRedux";
 import useFetchData from "../../query/useFetchData";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
 import { ContainerProps, DataBoxProps } from "../../type/props";
+import useSearchData from "../../query/useSearchData";
 
 /**
  *
@@ -37,25 +38,30 @@ const getColorForStack = (stack: string) => {
  * 전체 또는 선택한 스택에 맞는 데이터 불러오는 컴포넌트
  * @returns Context의 data 유무에 따른 데이터 목록을 반환하는 컴포넌트
  */
-export default function ShowDataList() {
+export default function ShowDataList({ keyword }: { keyword: string }) {
   // 저장된 context data
   const { stack: selectedStack, setData } = useContext(SelectDataContext);
 
+  // 스택에 따른 데이터 api
   const { posts: data } = useFetchData(selectedStack);
+  const { search } = useSearchData(keyword);
+  let postData = data.data?.data || [];
 
-  const postData = data.data?.data || [];
+  if (keyword) {
+    postData = search.data?.data || [];
+  }
 
-  // const dataquery = queryClient.getQueryData();
+  // 검색하고자 하는 검색어가 있을 경우 검색 데이터로 postData 대체
 
   // 클릭한 데이터로 context 데이터 저장
-  const saveDataOfStack = (stack: StackOfData) => {
-    setData(stack);
+  const saveDataOfStack = (data: StackOfData) => {
+    setData(data);
   };
 
   return (
     <Container $displayOpt={data && postData.length > 0}>
       {/* data 있을 시 DataBox, 없을 시 NoneData*/}
-      {postData && postData.length > 0 ? (
+      {postData.length > 0 ? (
         postData.map((eachData) => (
           <DataBox
             key={eachData.number}
@@ -90,14 +96,15 @@ const animateWave = keyframes`
 
 const Container = styled.div<ContainerProps>`
   width: 100%;
+  height: 100%;
   display: ${(props) => (props.$displayOpt ? "grid" : "flex")};
+  align-items: start;
+  align-self: start;
   ${(props) =>
     props.$displayOpt
       ? "grid-template-columns: repeat(6, 1fr);" // 그리드 아이템 너비 설정
-      : ""}
+      : "align-items: center;"}
   color: white;
-  align-items: start;
-  align-self: start;
 
   .data-item {
     aspect-ratio: 1; // 너비와 높이의 비율을 1:1로 설정
