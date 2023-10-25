@@ -4,13 +4,32 @@ import { ApiStackData } from "../../type/api";
 import { AiFillFileText } from "react-icons/ai";
 import { StackOfData } from "../../type/aboutRedux";
 import useFetchData from "../../query/useFetchData";
-import { queryClient } from "../..";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
-import { UseQueryResult } from "react-query";
-import { AxiosResponse } from "axios";
+import { ContainerProps, DataBoxProps } from "../../type/props";
 
-type ContainerProps = {
-  $displayOpt: boolean;
+/**
+ *
+ * @param stack useFetchData로부터 stack 받음 :stirng
+ * @returns styled에 들어갈 stack에 따른 bg
+ */
+const getColorForStack = (stack: string) => {
+  switch (stack) {
+    case "React":
+      return "#61DBFB";
+    case "Next":
+      return "gray";
+    case "Styled-Components":
+      return "linear-gradient(41deg, rgba(252,129,136,1) 0%, rgba(255,182,93,1) 100%)";
+    case "Css":
+      return "#2D53E5";
+    case "Mongo":
+      return "#4B9E4B";
+    case "Node":
+      return "rgb(142,198,24)";
+    // 기본값
+    default:
+      return "black";
+  }
 };
 
 /**
@@ -42,7 +61,9 @@ export default function ShowDataList() {
             key={eachData.number}
             className="data-item"
             onClick={() => saveDataOfStack(eachData)}
+            $stackColor={eachData.stack}
           >
+            <p className="stack">{eachData.stack}</p>
             <AiFillFileText className="icon" />
             <p className="date">{eachData.createdAt.slice(0, 10)}</p>
             <p className="title">{eachData.title}</p>
@@ -72,7 +93,7 @@ const Container = styled.div<ContainerProps>`
   display: ${(props) => (props.$displayOpt ? "grid" : "flex")};
   ${(props) =>
     props.$displayOpt
-      ? "grid-template-columns: repeat(5, 1fr);" // 그리드 아이템 너비 설정
+      ? "grid-template-columns: repeat(6, 1fr);" // 그리드 아이템 너비 설정
       : ""}
   color: white;
   align-items: start;
@@ -94,13 +115,16 @@ const NoneData = styled.div`
 `;
 
 // 데이터 있을 시
-const DataBox = styled.div`
+const DataBox = styled.div<DataBoxProps>`
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  justify-content: space-between;
   margin: 20px;
+  padding-top: 10px;
   cursor: pointer;
+  position: relative;
 
   // 아이콘
   .icon {
@@ -108,20 +132,40 @@ const DataBox = styled.div`
     height: 75px;
     color: white;
     position: relative;
+  }
 
-    &:hover {
+  &:hover {
+    .icon {
       animation: ${animateWave} 1s infinite;
     }
   }
 
   // 타이틀
   .title {
+    width: 100%;
     font-size: 18px;
     font-weight: 700;
+    text-align: center;
+    word-break: break-all;
+    word-wrap: break-word;
   }
 
   // 날짜
   .date {
     font-size: 14px;
+  }
+
+  // 스택 카테고리
+  .stack {
+    z-index: 1;
+    padding: 5px 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: white;
+    font-weight: 700;
+    text-shadow: #2a3d4e 1px 1px, #2a3d4e -0px 0px, #2a3d4e -1px 1px,
+      #2a3d4e -2px 2px, #2a3d4e -3px 3px, #2a3d4e -4px 4px, #2a3d4e -5px 5px;
+    background: ${(props) => getColorForStack(props.$stackColor)};
   }
 `;
