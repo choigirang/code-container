@@ -6,6 +6,7 @@ import ShowEachData from "./ShowEachData";
 import Editor from "./Editor";
 import { WriteContext } from "../../provider/WriteProvider";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
+import Search from "./Search";
 
 /**
  * 우측 데이터를 보여주는 박스 컴포넌트
@@ -18,7 +19,7 @@ export default function StackBox() {
   // 클릭한 스택 및 데이터
   const { data: selectData } = useContext(SelectDataContext);
 
-  // 선택한 데이터 있을 시 포스팅 페이지 보여주기
+  const [keyword, setKeyword] = useState("");
 
   return (
     <Container>
@@ -26,13 +27,14 @@ export default function StackBox() {
       <StackList />
       {/* 우측 스택에 따른 목록, 글 작성 선택 시 작성 페이지로 바뀜 */}
       <OverFlowStyle>
+        <Search keyword={keyword} setKeyword={setKeyword} />
         {write ? (
           <Editor />
         ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
         selectData.title ? (
           <ShowEachData data={selectData} />
         ) : (
-          <ShowDataList />
+          <ShowDataList keyword={keyword} />
         )}
       </OverFlowStyle>
     </Container>
@@ -67,5 +69,6 @@ const OverFlowStyle = styled.div`
   overflow: scroll;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-content: center;
 `;
