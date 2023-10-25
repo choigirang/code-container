@@ -17,7 +17,23 @@ export async function showPost(req: Request, res: Response) {
   }
 }
 
-export async function searchPost(req: Request, res: Response) {}
+export async function searchPost(req: Request, res: Response) {
+  const keyword = req.query.keyword;
+
+  try {
+    // 키워드를 포함하는 데이터 검색
+    const searchPostResults = await Post.find({
+      $or: [
+        { title: { $regex: keyword, $options: "i" } },
+        { content: { $regex: keyword, $options: "i" } },
+      ],
+    }).sort({ postNumber: -1 });
+
+    return res.status(200).send(searchPostResults);
+  } catch (err) {
+    return res.status(404).send(err);
+  }
+}
 
 export async function uploadPost(req: Request, res: Response) {
   const { title, stack, htmlContent } = req.body;
