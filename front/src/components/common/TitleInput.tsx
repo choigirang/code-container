@@ -7,16 +7,20 @@ import { styled } from "styled-components";
  * @returns 에디터로부터 전달받아, 데이터의 title을 설정하는 컴포넌트
  */
 export default function TitleInput({
+  setTitle,
   title,
 }: {
-  title: React.Dispatch<React.SetStateAction<string>>;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  title: string;
 }) {
   // 타이틀 핸들러
   const titleHandler: ComponentProps<"input">["onChange"] = (e) => {
-    title(e.target.value);
+    setTitle(e.target.value);
   };
 
-  return <Title onChange={titleHandler} placeholder="타이틀 입력" />;
+  return (
+    <Title onChange={titleHandler} placeholder="타이틀 입력" value={title} />
+  );
 }
 
 // 타이틀 입력
