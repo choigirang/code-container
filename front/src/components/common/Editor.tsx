@@ -59,7 +59,7 @@ export default function Editor({
         title={title}
         stack={stack}
         htmlContent={htmlContent}
-        edit={edit}
+        prePost={edit?.number}
         setEdit={setEdit}
       />
     </Container>
