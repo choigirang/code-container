@@ -9,8 +9,10 @@ import { backend, frontend } from "../../constant/stackList";
  */
 export default function CategorySelect({
   setStack,
+  stack,
 }: {
   setStack: React.Dispatch<React.SetStateAction<string>>;
+  stack: string;
 }) {
   // 카테고리로 사용될 스택 목록
   const stacks = {
@@ -24,7 +26,7 @@ export default function CategorySelect({
   };
 
   return (
-    <Select onChange={categoryHandler}>
+    <Select value={stack} onChange={categoryHandler}>
       <option value="">카테고리</option>
       {Object.keys(stacks).map((stack) => (
         <option key={stack} value={stacks[stack]}>
