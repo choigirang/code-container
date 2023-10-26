@@ -47,11 +47,11 @@ export default function ShowDataList({ keyword }: { keyword: string }) {
   const { search } = useSearchData(keyword);
   let postData = data.data?.data || [];
 
+  // Search 컴포넌트에서 입력된 keyword를 전달받아
+  // 전달받은 keyword가 있을 시 검색한 데이터로 (useSearchData)
   if (keyword) {
     postData = search.data?.data || [];
   }
-
-  // 검색하고자 하는 검색어가 있을 경우 검색 데이터로 postData 대체
 
   // 클릭한 데이터로 context 데이터 저장
   const saveDataOfStack = (data: StackOfData) => {
