@@ -1,10 +1,6 @@
 // AppProvider.tsx
 import React from "react";
-
-type ContextProviderProps<T> = {
-  contexts: React.FC<T>[];
-  children: React.ReactNode;
-};
+import { ContextProviderProps } from "../type/provider";
 
 /**
  * 여러 개의 context를 전달받는 함수

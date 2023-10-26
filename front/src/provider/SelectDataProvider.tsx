@@ -1,20 +1,6 @@
 import { createContext, useState } from "react";
 import { ApiStackData } from "../type/api";
-
-type SelectDataContextDefaultValue = {
-  stack: string;
-  setStack: React.Dispatch<React.SetStateAction<string>>;
-  initStack: () => void;
-  data: {
-    number: number;
-    stack: string;
-    title: string;
-    htmlContent: string;
-    createdAt: string;
-  };
-  setData: React.Dispatch<React.SetStateAction<ApiStackData>>;
-  initData: () => void;
-};
+import { SelectDataContextDefaultValue } from "../type/provider";
 
 export const SelectDataContext = createContext<SelectDataContextDefaultValue>({
   stack: "",

@@ -4,11 +4,7 @@ import React, {
   useContext,
   useState,
 } from "react";
-
-type AuthContextDefaultValue = {
-  user: boolean;
-  setUser: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { AuthContextDefaultValue } from "../type/provider";
 
 export const AuthContext = createContext<AuthContextDefaultValue>({
   user: false,
