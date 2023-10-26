@@ -16,7 +16,7 @@ export const queryClient = new QueryClient({
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
-    {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-left" /> */}
+    <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
     <App />
   </QueryClientProvider>,
   document.getElementById("root")
