@@ -13,8 +13,10 @@ import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin
 
 export default function ToastEditor({
   setHtmlContent,
+  htmlContent,
 }: {
   setHtmlContent: React.Dispatch<React.SetStateAction<string>>;
+  htmlContent?: string;
 }) {
   const editorRef = useRef<Editor>(null);
 
@@ -36,6 +38,7 @@ export default function ToastEditor({
       language="ko-KR"
       plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
       onChange={htmlContentHandler}
+      initialValue={htmlContent}
     />
   );
 }
