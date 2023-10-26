@@ -1,27 +1,27 @@
 import React, { ComponentProps, useContext } from "react";
 import { styled } from "styled-components";
-import { api } from "../../util/api";
-import { useDispatch } from "react-redux";
-import { changeWrite } from "../../redux/actions/write";
-import { WriteContext } from "../../provider/WriteProvider";
-import useAddPost from "../../query/useAddPost";
 import { queryClient } from "../..";
+import { ApiStackData } from "../../type/api";
+import { useMutation } from "react-query";
+import useAddPost from "../../query/useAddPost";
 
 /**
  *
  * @param {stirng} title
  * @param {string} stack
  * @param {string} htmlContent
+ * @param edit 수정하고자 하는 데이터가 있을 시
  * @returns Ediotr 컴포넌트로부터 데이터를 전달받아 fetch
  */
 export default function SubmitBtn(props: {
   title: string;
   stack: string;
   htmlContent: string;
+  prePost?: number;
+  setEdit: React.Dispatch<React.SetStateAction<ApiStackData>>;
 }) {
-  const { title, stack, htmlContent } = props;
-  const data = { title, stack, htmlContent };
-  const { mutate } = useAddPost(data);
+  const { title, stack, htmlContent, prePost } = props;
+  const { mutate } = useAddPost({ title, stack, htmlContent, prePost });
 
   // api 제출 이벤트
   const saveHandler: ComponentProps<"button">["onSubmit"] = (e) => {
