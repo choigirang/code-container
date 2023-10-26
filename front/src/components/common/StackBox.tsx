@@ -7,19 +7,30 @@ import Editor from "./Editor";
 import { WriteContext } from "../../provider/WriteProvider";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
 import Search from "./Search";
+import { ApiStackData } from "../../type/api";
 
 /**
  * 우측 데이터를 보여주는 박스 컴포넌트
  * @returns context에 따라 에디터, 개별 데이터, 전체 데이터 페이지로 변경되는 컴포넌트
  */
 export default function StackBox() {
+  // 검색어 저장
+  const [keyword, setKeyword] = useState("");
+
+  // 데이터 수정
+  const [edit, setEdit] = useState<ApiStackData>({
+    number: 0,
+    stack: "",
+    title: "",
+    htmlContent: "",
+    createdAt: "",
+  });
+
   // 글쓰기 상태 저장
-  const { write } = useContext(WriteContext);
+  const { write, setWrite } = useContext(WriteContext);
 
   // 클릭한 스택 및 데이터
   const { data: selectData } = useContext(SelectDataContext);
-
-  const [keyword, setKeyword] = useState("");
 
   return (
     <Container>
@@ -29,10 +40,14 @@ export default function StackBox() {
       <OverFlowStyle>
         <Search keyword={keyword} setKeyword={setKeyword} />
         {write ? (
-          <Editor />
+          <Editor edit={edit} setEdit={setEdit} />
         ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
         selectData.title ? (
-          <ShowEachData data={selectData} />
+          <ShowEachData
+            data={selectData}
+            setWrite={setWrite}
+            setEdit={setEdit}
+          />
         ) : (
           <ShowDataList keyword={keyword} />
         )}
