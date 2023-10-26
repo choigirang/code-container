@@ -13,10 +13,8 @@ import { keyframes, styled } from "styled-components";
 export function CheckUser() {
   // 계정 확인
   const { user, setUser } = useContext(AuthContext);
-  // 계정 확인 입력창
-  const [openInput, setOpenInput] = useState<boolean>(false);
-  // 게시글 작성
-  const { write, setWrite } = useContext(WriteContext);
+  // 게시글 작성 및 계정확인창
+  const { write, setWrite, openInput, setOpenInput } = useContext(WriteContext);
 
   // 코드 입력 핸들러
   const submitInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
