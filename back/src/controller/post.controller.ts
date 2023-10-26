@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Post from "../models/post.model";
+import { PostType } from "../type/schema";
 
 export async function showPost(req: Request, res: Response) {
   const { stack } = req.params;
@@ -42,20 +43,33 @@ export async function searchPost(req: Request, res: Response) {
 }
 
 export async function uploadPost(req: Request, res: Response) {
-  const { title, stack, htmlContent } = req.body;
-
+  const { title, stack, htmlContent, prePost } = req.body;
   try {
-    const number = await Post.countDocuments();
+    if (prePost) {
+      // prePost의 number와 일치하는 게시글을 찾습니다.
+      const existingPost = await Post.findOne({ number: prePost });
+      if (existingPost) {
+        // 해당 게시글이 존재하는 경우 데이터를 교체합니다.
+        existingPost.title = title;
+        existingPost.category = stack;
+        existingPost.htmlContent = htmlContent;
 
-    const createdPost = new Post({
-      number: number + 1,
-      title,
-      htmlContent,
-      stack,
-    });
+        await existingPost.save();
+        return res.status(200).json("데이터 전송이 완료되었습니다.");
+      }
+    } else {
+      // prePost가 없을 경우 새로운 게시글을 생성합니다.
+      const number = await Post.countDocuments();
+      const createdPost = new Post({
+        number: number + 1,
+        title,
+        htmlContent,
+        stack,
+      });
 
-    await createdPost.save();
-    return res.status(200).json("데이터 전송이 완료되었습니다.");
+      await createdPost.save();
+      return res.status(200).json("데이터 전송이 완료되었습니다.");
+    }
   } catch {
     res.status(400).json("데이터 전송에 실패하였습니다.");
   }
