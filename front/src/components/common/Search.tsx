@@ -33,7 +33,9 @@ export default function Search({
 
   const initKeyword = () => {
     setKeyword("");
-    inputValue = "";
+    if (inputRef.current) {
+      inputRef.current.value = ""; // 입력란 초기화
+    }
   };
 
   return (
