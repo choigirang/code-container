@@ -6,40 +6,62 @@ import { styled } from "styled-components";
 import ToastEditor from "../editor/ToastEditor";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { WriteContext } from "../../provider/WriteProvider";
+import { ApiStackData } from "../../type/api";
 
 /**
  * toast ui를 이용한 에디터
  * @returns 타이틀, 카테고리, 본문 설정과 데이터 전송을 위한 Submit버튼
  */
-export default function Editor() {
-  const { setWrite } = useContext(WriteContext);
+export default function Editor({
+  edit,
+  setEdit,
+}: {
+  edit?: ApiStackData;
+  setEdit: React.Dispatch<React.SetStateAction<ApiStackData>>;
+}) {
+  const { write, setWrite } = useContext(WriteContext);
   // 타이틀
-  const [title, setTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>(edit ? edit.title : "");
   // 카테고리
-  const [stack, setStack] = useState<string>("");
+  const [stack, setStack] = useState<string>(edit ? edit.stack : "");
   // 작성한 본문
-  const [htmlContent, setHtmlContent] = useState<string>("");
-  // 작성된 내용을 가져오기 위한 ref
+  const [htmlContent, setHtmlContent] = useState<string>(
+    edit ? edit.htmlContent : ""
+  );
+
+  const initAll = () => {
+    setWrite(!write);
+    setEdit({
+      number: 0,
+      stack: "",
+      title: "",
+      htmlContent: "",
+      createdAt: "",
+    });
+  };
 
   return (
     <Container>
       <TitleCategoryBox>
         <Left>
           {/* 뒤로가기 */}
-          <BsArrowLeftCircleFill
-            className="icon"
-            onClick={(prev) => setWrite(!prev)}
-          />
+          <BsArrowLeftCircleFill className="icon" onClick={initAll} />
           {/* 타이틀 입력 */}
-          <TitleInput title={setTitle} />
+          <TitleInput setTitle={setTitle} title={title} />
         </Left>
         {/* 카테고리 선택 */}
-        <CategorySelect setStack={setStack} />
+        <CategorySelect setStack={setStack} stack={stack} />
       </TitleCategoryBox>
       {/* 본문 에디터 */}
-      <ToastEditor setHtmlContent={setHtmlContent} />
+      <ToastEditor setHtmlContent={setHtmlContent} htmlContent={htmlContent} />
       {/* 전송하기 */}
-      <SubmitBtn title={title} stack={stack} htmlContent={htmlContent} />
+      <SubmitBtn
+        title={title}
+        stack={stack}
+        htmlContent={htmlContent}
+        edit={edit}
+        setEdit={setEdit}
+      />
     </Container>
   );
 }
@@ -71,8 +93,8 @@ const Left = styled.div`
 
   .icon {
     color: white;
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
   }
 `;
