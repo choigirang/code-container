@@ -32,6 +32,10 @@ export default function StackBox() {
   // 클릭한 스택 및 데이터
   const { data: selectData } = useContext(SelectDataContext);
 
+  useEffect(() => {
+    console.log("render stackbox");
+  }, []);
+
   return (
     <Container>
       {/* 좌측 스택 리스트 */}
