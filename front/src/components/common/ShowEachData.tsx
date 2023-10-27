@@ -6,6 +6,7 @@ import ToastViewer from "../editor/ToastViewer";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
 import { AuthContext } from "../../provider/AuthProvider";
 import { ApiStackData } from "../../type/api";
+import useFetchData from "../../query/useFetchData";
 
 /**
  * StackBox에서 클릭한 데이터가 있는지
@@ -28,7 +29,10 @@ export default function ShowEachData({
   const { user } = useContext(AuthContext);
 
   // ShowDataList에서 클릭받아 전달받은 props
-  const { title, stack, htmlContent, createdAt } = data;
+  const { number, title, stack, htmlContent, createdAt } = data;
+
+  const { posts: numberOfData } = useFetchData(number);
+  console.log(numberOfData.data?.data);
 
   // 글 수정 이벤트
   const editPost = () => {
