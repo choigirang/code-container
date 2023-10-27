@@ -5,7 +5,19 @@ import { PostType } from "../type/schema";
 export async function showPost(req: Request, res: Response) {
   const { stack } = req.params;
 
+  // 숫자가 와도 문자열로 취급
+  console.log(stack);
   try {
+    if (typeof stack === "number") {
+      const numberOfPost = await Post.find({ number: stack }).sort({
+        number: -1,
+      });
+
+      console.log(1);
+
+      console.log(numberOfPost);
+      return res.status(200).json(numberOfPost);
+    }
     const post = await Post.find({ stack }).sort({ number: -1 });
     const allPost = await Post.find().sort({ number: -1 });
 
