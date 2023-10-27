@@ -41,7 +41,8 @@ export default function useAddPost(data: {
 
   return useMutation(addPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries([stack ? stack : "all"]);
+      queryClient.invalidateQueries([stack !== "" && stack]);
+      console.log("success", stack);
     },
   });
 }
