@@ -43,26 +43,27 @@ export default function ShowDataList({ keyword }: { keyword: string }) {
   const { stack: selectedStack, setData } = useContext(SelectDataContext);
 
   // 스택에 따른 데이터 api
-  const { posts: data } = useFetchData(selectedStack);
-  const { search } = useSearchData(keyword);
-  let postData = data.data?.data || [];
+  const { data: posts, isLoading } = useFetchData(selectedStack);
+  const { data: search } = useSearchData(keyword);
+
+  let data = posts && posts.data;
 
   // Search 컴포넌트에서 입력된 keyword를 전달받아
   // 전달받은 keyword가 있을 시 검색한 데이터로 (useSearchData)
-  if (keyword) {
-    postData = search.data?.data || [];
-  }
+  if (keyword) data = search?.data;
 
   // 클릭한 데이터로 context 데이터 저장
   const saveDataOfStack = (data: StackOfData) => {
     setData(data);
   };
 
+  if (isLoading) return <div>isLoadding</div>;
+
   return (
-    <Container $displayOpt={data && postData.length > 0}>
+    <Container $displayOpt={Array.isArray(data)}>
       {/* data 있을 시 DataBox, 없을 시 NoneData*/}
-      {postData.length > 0 ? (
-        postData.map((eachData) => (
+      {Array.isArray(data) ? (
+        data.map((eachData) => (
           <DataBox
             key={eachData.number}
             className="data-item"
