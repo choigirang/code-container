@@ -3,6 +3,7 @@ import { api } from "../util/api";
 import { WriteContext } from "../provider/WriteProvider";
 import { useMutation } from "react-query";
 import { queryClient } from "..";
+import { SelectDataContext } from "../provider/SelectDataProvider";
 
 /**
  * 데이터를 받아서 post 를 하는 useMuxtation custom hooks
@@ -16,9 +17,12 @@ export default function useAddPost(data: {
   prePost?: number;
 }) {
   const { setWrite } = useContext(WriteContext);
+  const { initData } = useContext(SelectDataContext);
 
   // StackBox에서 editPost에 저장된 기존 post의 number
   const { prePost, stack } = data;
+
+  const findQueryKeys = queryClient.getQueryCache()["queriesMap"];
 
   function addPost() {
     return api
@@ -41,8 +45,10 @@ export default function useAddPost(data: {
 
   return useMutation(addPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries([stack !== "" && stack]);
-      console.log("success", stack);
+      const queryCache = queryClient.getQueryCache();
+
+      // 쿼리 키를 찾아서 초기화해주기
+      initData();
     },
   });
 }
