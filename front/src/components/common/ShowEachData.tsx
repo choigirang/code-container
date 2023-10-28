@@ -14,46 +14,47 @@ import useFetchData from "../../query/useFetchData";
  * @returns 상세 데이터를 포함한 페이지를 보여주는 컴포넌트
  */
 export default function ShowEachData({
-  data,
   setWrite,
   setEdit,
 }: {
-  data: StackOfData;
   setWrite: React.Dispatch<React.SetStateAction<boolean>>;
   setEdit: React.Dispatch<React.SetStateAction<ApiStackData>>;
 }) {
   // 뒤로가기 버튼, context data 초기화
-  const { initData } = useContext(SelectDataContext);
+  const { data, initData } = useContext(SelectDataContext);
 
   // 비밀번호 입력된 user인지 확인
   const { user } = useContext(AuthContext);
 
-  // ShowDataList에서 클릭받아 전달받은 props
-  const { number, title, stack, htmlContent, createdAt } = data;
-
-  const { posts: numberOfData } = useFetchData(number);
-  console.log(numberOfData.data?.data);
+  const { data: post, isLoading } = useFetchData(data.number);
 
   // 글 수정 이벤트
   const editPost = () => {
     setWrite(true);
-    setEdit(data);
   };
+
+  if (isLoading) {
+    <div>Loading...</div>;
+  }
 
   return (
     <Container>
-      <Top>
-        <IconTitle>
-          <BsArrowLeftCircleFill className="icon" onClick={initData} />
-          <p className="title">{title}</p>
-          {user && <BsPencilFill className="icon" onClick={editPost} />}
-        </IconTitle>
-        <DateCategory>
-          <p className="date">{createdAt.slice(0, 10)}</p>
-          <p className="category">{stack}</p>
-        </DateCategory>
-      </Top>
-      <ToastViewer content={htmlContent} />
+      {post && !Array.isArray(post.data) && (
+        <React.Fragment>
+          <Top>
+            <IconTitle>
+              <BsArrowLeftCircleFill className="icon" onClick={initData} />
+              <p className="title">{post.data.title}</p>
+              {user && <BsPencilFill className="icon" onClick={editPost} />}
+            </IconTitle>
+            <DateCategory>
+              <p className="date">{post.data.createdAt.slice(0, 10)}</p>
+              <p className="category">{post.data.stack}</p>
+            </DateCategory>
+          </Top>
+          <ToastViewer content={post.data.htmlContent} />
+        </React.Fragment>
+      )}
     </Container>
   );
 }
