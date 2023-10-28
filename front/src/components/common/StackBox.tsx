@@ -47,11 +47,7 @@ export default function StackBox() {
           <Editor edit={edit} setEdit={setEdit} />
         ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
         selectData.title ? (
-          <ShowEachData
-            data={selectData}
-            setWrite={setWrite}
-            setEdit={setEdit}
-          />
+          <ShowEachData setWrite={setWrite} setEdit={setEdit} />
         ) : (
           <ShowDataList keyword={keyword} />
         )}
