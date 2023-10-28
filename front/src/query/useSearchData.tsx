@@ -5,9 +5,7 @@ import { useQuery } from "react-query";
 import { api } from "../util/api";
 
 export default function useSearchData(keyword: string) {
-  const search = useQuery<AxiosResponse<ApiStackData[]>>(
-    ["keyword", keyword],
-    () => api.get(`/search?keyword=${keyword ? keyword : "all"}`)
+  return useQuery<AxiosResponse<ApiStackData[]>>(["keyword", keyword], () =>
+    api.get(`/search?keyword=${keyword ? keyword : "all"}`)
   );
-  return { search };
 }
