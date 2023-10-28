@@ -5,7 +5,6 @@ import { PostType } from "../type/schema";
 export async function showPost(req: Request, res: Response) {
   const { stack } = req.params;
 
-  console.log(stack);
   try {
     const post = await Post.find({ stack }).sort({ number: -1 });
     const allPost = await Post.find().sort({ number: -1 });

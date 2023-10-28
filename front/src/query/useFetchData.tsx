@@ -12,17 +12,13 @@ import { useState } from "react";
  * @param stack 선택한 스택
  * @returns 스택에 따른 데이터 반환 query hooks
  */
-export default function useFetchData(stack: string | number) {
+export default function useFetchData(stack: string) {
   // data의 number를 활용하여
   // stackBox에서 ShowEachData로 Data props를 넘겨주는 방식이 아닌
   // 클릭한 데이터에 대한 요청으로 개별 데이터를 저장해서 사용하면
   // 쿼리 refetch를 해결할 수 있지 않을까
 
   return useQuery<AxiosResponse<ApiStackData[]>>([stack], () =>
-    api.get(
-      typeof stack === "string"
-        ? `/posts/${stack === "" ? "all" : stack}`
-        : `/post/${stack}`
-    )
+    api.get(`/posts/${stack === "" ? "all" : stack}`)
   );
 }
