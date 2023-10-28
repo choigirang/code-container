@@ -18,7 +18,7 @@ export default function useFetchData(stack: string | number) {
   // 클릭한 데이터에 대한 요청으로 개별 데이터를 저장해서 사용하면
   // 쿼리 refetch를 해결할 수 있지 않을까
 
-  return useQuery<AxiosResponse<ApiStackData[] | ApiStackData>>([stack], () =>
+  return useQuery<AxiosResponse<ApiStackData[]>>([stack], () =>
     api.get(
       typeof stack === "string"
         ? `/posts/${stack === "" ? "all" : stack}`

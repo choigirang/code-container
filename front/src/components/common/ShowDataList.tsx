@@ -58,11 +58,12 @@ export default function ShowDataList({ keyword }: { keyword: string }) {
   };
 
   if (isLoading) return <div>isLoadding</div>;
+  if (!data) return <div>데이터가 없습니다.</div>;
 
   return (
-    <Container $displayOpt={Array.isArray(data)}>
+    <Container $displayOpt={data.length !== 0}>
       {/* data 있을 시 DataBox, 없을 시 NoneData*/}
-      {Array.isArray(data) ? (
+      {data ? (
         data.map((eachData) => (
           <DataBox
             key={eachData.number}

@@ -32,10 +32,6 @@ export default function StackBox() {
   // 클릭한 스택 및 데이터
   const { data: selectData } = useContext(SelectDataContext);
 
-  useEffect(() => {
-    console.log("render stackbox");
-  }, []);
-
   return (
     <Container>
       {/* 좌측 스택 리스트 */}
@@ -47,7 +43,11 @@ export default function StackBox() {
           <Editor edit={edit} setEdit={setEdit} />
         ) : // 선택한 데이터가 있을 시 Each, 없을 시 데이터 목록
         selectData.title ? (
-          <ShowEachData setWrite={setWrite} setEdit={setEdit} />
+          <ShowEachData
+            selectData={selectData}
+            setWrite={setWrite}
+            setEdit={setEdit}
+          />
         ) : (
           <ShowDataList keyword={keyword} />
         )}

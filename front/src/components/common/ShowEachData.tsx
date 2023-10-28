@@ -14,45 +14,41 @@ import useFetchData from "../../query/useFetchData";
  * @returns 상세 데이터를 포함한 페이지를 보여주는 컴포넌트
  */
 export default function ShowEachData({
+  selectData,
   setWrite,
   setEdit,
 }: {
+  selectData: ApiStackData;
   setWrite: React.Dispatch<React.SetStateAction<boolean>>;
   setEdit: React.Dispatch<React.SetStateAction<ApiStackData>>;
 }) {
   // 뒤로가기 버튼, context data 초기화
-  const { data, initData } = useContext(SelectDataContext);
+  const { initData } = useContext(SelectDataContext);
 
   // 비밀번호 입력된 user인지 확인
   const { user } = useContext(AuthContext);
-
-  const { data: post, isLoading } = useFetchData(data.number);
 
   // 글 수정 이벤트
   const editPost = () => {
     setWrite(true);
   };
 
-  if (isLoading) {
-    <div>Loading...</div>;
-  }
-
   return (
     <Container>
-      {post && !Array.isArray(post.data) && (
+      {selectData && (
         <React.Fragment>
           <Top>
             <IconTitle>
               <BsArrowLeftCircleFill className="icon" onClick={initData} />
-              <p className="title">{post.data.title}</p>
+              <p className="title">{selectData.title}</p>
               {user && <BsPencilFill className="icon" onClick={editPost} />}
             </IconTitle>
             <DateCategory>
-              <p className="date">{post.data.createdAt.slice(0, 10)}</p>
-              <p className="category">{post.data.stack}</p>
+              <p className="date">{selectData.createdAt.slice(0, 10)}</p>
+              <p className="category">{selectData.stack}</p>
             </DateCategory>
           </Top>
-          <ToastViewer content={post.data.htmlContent} />
+          <ToastViewer content={selectData.htmlContent} />
         </React.Fragment>
       )}
     </Container>
