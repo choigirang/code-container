@@ -14,22 +14,20 @@ export default function useAddPost(data: {
   title: string;
   stack: string;
   htmlContent: string;
-  prePost?: number;
+  number?: number;
 }) {
   const { setWrite } = useContext(WriteContext);
   const { initData } = useContext(SelectDataContext);
 
   // StackBox에서 editPost에 저장된 기존 post의 number
-  const { prePost, stack } = data;
-
-  const findQueryKeys = queryClient.getQueryCache()["queriesMap"];
+  const { number, stack } = data;
 
   function addPost() {
     return api
       .post("/posts", data)
       .then((res) => {
-        // prePost(게시글의 number)있을 시 게시글 수정이라는 의미
-        if (prePost) {
+        // 게시글의 number 있을 시 게시글 수정이라는 의미
+        if (number !== 0) {
           alert("수정이 완료되었습니다.");
           setWrite((prev) => !prev);
         } else {
@@ -45,9 +43,10 @@ export default function useAddPost(data: {
 
   return useMutation(addPost, {
     onSuccess: () => {
-      const queryCache = queryClient.getQueryCache();
-
       // 쿼리 키를 찾아서 초기화해주기
+      queryClient.invalidateQueries([stack]);
+
+      // ShowEachData 컴포넌트를 초기화 시키기위한
       initData();
     },
   });
