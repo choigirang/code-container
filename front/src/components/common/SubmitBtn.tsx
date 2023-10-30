@@ -17,11 +17,11 @@ export default function SubmitBtn(props: {
   title: string;
   stack: string;
   htmlContent: string;
-  prePost?: number;
+  number?: number;
   setEdit: React.Dispatch<React.SetStateAction<ApiStackData>>;
 }) {
-  const { title, stack, htmlContent, prePost } = props;
-  const { mutate } = useAddPost({ title, stack, htmlContent, prePost });
+  const { title, stack, htmlContent, number } = props;
+  const { mutate } = useAddPost({ title, stack, htmlContent, number });
 
   // api 제출 이벤트
   const saveHandler: ComponentProps<"button">["onSubmit"] = (e) => {
