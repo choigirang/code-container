@@ -56,11 +56,11 @@ export async function searchPost(req: Request, res: Response) {
 }
 
 export async function uploadPost(req: Request, res: Response) {
-  const { title, stack, htmlContent, prePost } = req.body;
+  const { title, stack, htmlContent, number } = req.body;
   try {
-    if (prePost) {
-      // prePost의 number와 일치하는 게시글을 찾습니다.
-      const existingPost = await Post.findOne({ number: prePost });
+    if (number !== 0) {
+      // number와 일치하는 게시글을 찾습니다.
+      const existingPost = await Post.findOne({ number });
       if (existingPost) {
         // 해당 게시글이 존재하는 경우 데이터를 교체합니다.
         existingPost.title = title;
@@ -71,7 +71,7 @@ export async function uploadPost(req: Request, res: Response) {
         return res.status(200).json("데이터 전송이 완료되었습니다.");
       }
     } else {
-      // prePost가 없을 경우 새로운 게시글을 생성합니다.
+      // number 없을 경우 새로운 게시글을 생성합니다.
       const number = await Post.countDocuments();
       const createdPost = new Post({
         number: number + 1,
