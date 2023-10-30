@@ -15,9 +15,11 @@ import { ApiStackData } from "../../type/api";
 export default function Editor({
   edit,
   setEdit,
+  data,
 }: {
   edit?: ApiStackData;
   setEdit: React.Dispatch<React.SetStateAction<ApiStackData>>;
+  data?: ApiStackData;
 }) {
   const { write, setWrite } = useContext(WriteContext);
   // 타이틀
@@ -59,7 +61,7 @@ export default function Editor({
         title={title}
         stack={stack}
         htmlContent={htmlContent}
-        prePost={edit?.number}
+        number={data?.number}
         setEdit={setEdit}
       />
     </Container>
