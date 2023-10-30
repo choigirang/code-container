@@ -31,6 +31,13 @@ export default function ShowEachData({
   // 글 수정 이벤트
   const editPost = () => {
     setWrite(true);
+    setEdit({
+      number: selectData.number,
+      title: selectData.title,
+      stack: selectData.stack,
+      createdAt: selectData.createdAt,
+      htmlContent: selectData.htmlContent,
+    });
   };
 
   return (
