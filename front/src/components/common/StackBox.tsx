@@ -8,6 +8,8 @@ import { WriteContext } from "../../provider/WriteProvider";
 import { SelectDataContext } from "../../provider/SelectDataProvider";
 import Search from "./Search";
 import { ApiStackData } from "../../type/api";
+import { useMutation } from "react-query";
+import { api } from "../../util/api";
 
 /**
  * 우측 데이터를 보여주는 박스 컴포넌트
@@ -16,6 +18,8 @@ import { ApiStackData } from "../../type/api";
 export default function StackBox() {
   // 검색어 저장
   const [keyword, setKeyword] = useState("");
+
+  const { mutate, mutateAsync } = useMutation(() => api.post("/posts"));
 
   // 데이터 수정
   const [edit, setEdit] = useState<ApiStackData>({

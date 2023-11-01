@@ -2,7 +2,7 @@ import React, { ComponentProps, useContext } from "react";
 import { styled } from "styled-components";
 import { queryClient } from "../..";
 import { ApiStackData } from "../../type/api";
-import { useMutation } from "react-query";
+import { useMutation, UseBaseQueryResult } from "react-query";
 import useAddPost from "../../query/useAddPost";
 
 /**
