@@ -28,7 +28,28 @@
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/express/#E0234E" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/mongodb/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazonec2/#FF9900" alt="icon" width="75" height="75" /></div> |
 
+<br />
+
 ## 페이지
+
+### 메인페이지
+
+- 게시글 카테고리 분류
+- 코드 하이라이터 개당 복사 기능
+![20231204_210025](https://github.com/choigirang/code-container/assets/118104644/f6692d12-7a91-4eae-8e04-2beeee20c1db)
+
+
+<br>
+
+### 게시글 작성
+- 비밀번호 입력을 통한 게시글 작성
+- 코드 하이라이터를 사용한 작성 페이지
+
+![20231204_215115](https://github.com/choigirang/code-container/assets/118104644/d240a6d6-a775-4c2f-a552-404170256de5)
+
+<br>
+### 게시글 수정
+- 
 
 ## Git Commit & PR Message
 
