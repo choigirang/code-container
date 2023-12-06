@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import React, { ComponentProps, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 
 import { BsFillClipboardCheckFill } from "react-icons/bs";
@@ -26,6 +26,8 @@ export default function ToastViewer({ content }: { content: string }) {
 
       // 코드 하이라이트마다 아이콘 생성 및 이벤트 연결
       codeElements.forEach((codeElement, index) => {
+        if (codeElement.previousElementSibling?.classList.contains("icon-box"))
+          return;
         const codeContainer = document.createElement("div");
         codeContainer.className = "icon-box";
         codeElement.parentNode?.insertBefore(codeContainer, codeElement);
@@ -57,22 +59,3 @@ export default function ToastViewer({ content }: { content: string }) {
     />
   );
 }
-
-// 해결해야 할 타입 에러
-// const copyIcon = (
-//   <div className="copy-icon">
-//     <BsFillClipboardCheckFill />
-//   </div>
-// );
-
-// ReactDOM.render(copyIcon, codeElement.previousSibling);
-
-// 대문자로 작성된 코드 색상 추가를 위한 => 수정 필요
-// textElements.forEach((element) => {
-//   if (
-//     element.textContent &&
-//     element.textContent === element.textContent.toUpperCase()
-//   ) {
-//     element.classList.add("component");
-//   }
-// });
