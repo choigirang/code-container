@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { api } from "../util/api";
 import { WriteContext } from "../provider/WriteProvider";
-import { useMutation } from "react-query";
-import { queryClient } from "..";
+import { useMutation, useQueryClient } from "react-query";
 import { SelectDataContext } from "../provider/SelectDataProvider";
 
 /**
@@ -18,6 +17,8 @@ export default function useAddPost(data: {
 }) {
   const { setWrite } = useContext(WriteContext);
   const { initData } = useContext(SelectDataContext);
+
+  const queryClient = useQueryClient();
 
   // StackBox에서 editPost에 저장된 기존 post의 number
   const { number, stack } = data;
@@ -44,7 +45,7 @@ export default function useAddPost(data: {
   return useMutation(addPost, {
     onSuccess: () => {
       // 쿼리 키를 찾아서 초기화해주기
-      queryClient.invalidateQueries([stack]);
+      queryClient.invalidateQueries();
 
       // ShowEachData 컴포넌트를 초기화 시키기위한
       initData();
