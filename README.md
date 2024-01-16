@@ -1,5 +1,8 @@
 ## <h2 align="center">꺼내쓰는 코드 </h2>
 
+<h5 align="center">개발기간: 2023.09 ~ 2023.10</h5>
+
+
 - **프로젝트 명 :** `Code-Container`
 - **프로젝트 소개 :** 개발 중 자주 사용되는 코드들을 모아놓기 위해 만들어보았습니다.
 <!-- - **배포 링크 :** <a href='https://sidequest.co.kr' target='_blank'>Why-Community</a> -->
