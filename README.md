@@ -36,12 +36,12 @@
 ```js
 // frontend
 cd front
-npm i
+npm install
 npm run start
 
 // backend
 cd back
-npm i
+npm install
 nodemon src/app.ts
 ```
 
