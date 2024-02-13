@@ -2,7 +2,6 @@
 
 <h5 align="center">개발기간: 2023.09 ~ 2023.10</h5>
 
-
 - **프로젝트 명 :** `Code-Container`
 - **프로젝트 소개 :** 개발 중 자주 사용되는 코드들을 모아놓기 위해 만들어보았습니다.
 <!-- - **배포 링크 :** <a href='https://sidequest.co.kr' target='_blank'>Why-Community</a> -->
@@ -32,7 +31,9 @@
 | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/express/#E0234E" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/mongodb/#000000" alt="icon" width="75" height="75" /></div> | <div style="display: flex; align-items: flex-start; justify-content: center;"><img src="https://cdn.simpleicons.org/amazonec2/#FF9900" alt="icon" width="75" height="75" /></div> |
 
 <br />
+
 ## npm
+
 ```js
 // frontend
 cd front
