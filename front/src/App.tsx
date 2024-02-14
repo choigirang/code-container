@@ -7,8 +7,13 @@ import AuthProvider from "./provider/AuthProvider";
 import WriteProvider from "./provider/WriteProvider";
 import { CheckUser } from "./components/common/CheckUser";
 import SelectDataContext from "./provider/SelectDataProvider";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    alert("글쓰기 코드 choigirang");
+  }, []);
+
   return (
     <AppProvider contexts={[AuthProvider, WriteProvider, SelectDataContext]}>
       <BasicApp>
